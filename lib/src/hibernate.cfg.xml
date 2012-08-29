@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost/jmud</property>
+		<property name="hibernate.connection.username">jmud</property>
+		<property name="hibernate.connection.password">jmud</property>
+
+		<property name="hibernate.connection.autocommit">true</property>
+		<property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+		<property name="hibernate.c3p0.max_size">20</property>
+		<property name="hibernate.c3p0.max_statements">50</property>
+		<property name="hibernate.c3p0.min_size">5</property>
+		<property name="hibernate.c3p0.timeout">1800</property>
+
+		<property name="show_sql">false</property>
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="connection.autoReconnect">true</property>
+		<property name="connection.autoReconnectForPools">true</property>
+		<property name="connection.is-connection-validation-required">true</property>
+		<property name="hibernate.current_session_context_class">org.hibernate.context.ManagedSessionContext</property>
+
+		<property name="hibernate.cache.provider_class">
+			org.hibernate.cache.EhCacheProvider
+		</property>
+		
+		<mapping class="net.arg3.jmud.Help" />
+		<mapping class="net.arg3.jmud.Affect" />
+		<mapping class="net.arg3.jmud.Room" />
+		<mapping class="net.arg3.jmud.Character" />
+		<mapping class="net.arg3.jmud.Player" />
+		<mapping class="net.arg3.jmud.Area" />
+		<mapping class="net.arg3.jmud.Continent" />
+		<mapping class="net.arg3.jmud.Exit" />
+		<mapping class="net.arg3.jmud.Account" />
+		<mapping class="net.arg3.jmud.Profession" />
+		<mapping class="net.arg3.jmud.races.UniqueRace" />
+		<mapping class="net.arg3.jmud.races.HumanRace"/>
+		<mapping class="net.arg3.jmud.races.ElfRace"/>
+		<mapping class="net.arg3.jmud.races.DwarfRace"/>
+		<mapping class="net.arg3.jmud.races.GiantRace"/>
+		<mapping class="net.arg3.jmud.races.BatRace"/>
+		<mapping class="net.arg3.jmud.races.BearRace"/>
+		<mapping class="net.arg3.jmud.races.BirdRace"/>
+		<mapping class="net.arg3.jmud.races.CentipedeRace"/>
+		<mapping class="net.arg3.jmud.races.DogRace"/>
+		<mapping class="net.arg3.jmud.races.FelineRace"/>
+		<mapping class="net.arg3.jmud.races.FoxRace"/>
+		<mapping class="net.arg3.jmud.races.GoblinRace"/>
+		<mapping class="net.arg3.jmud.races.HobgoblinRace"/>
+		<mapping class="net.arg3.jmud.races.KoboldRace"/>
+		<mapping class="net.arg3.jmud.races.ModronRace"/>
+		<mapping class="net.arg3.jmud.races.OrcRace"/>
+		<mapping class="net.arg3.jmud.races.PigRace"/>
+		<mapping class="net.arg3.jmud.races.RabbitRace"/>
+		<mapping class="net.arg3.jmud.races.ReptileRace"/>
+		<mapping class="net.arg3.jmud.races.SnakeRace"/>
+		<mapping class="net.arg3.jmud.races.TrollRace"/>
+		<mapping class="net.arg3.jmud.races.WolfRace"/>
+		<mapping class="net.arg3.jmud.races.WyvernRace"/>
+		<mapping class="net.arg3.jmud.objects.ArmorObject" />
+		<mapping class="net.arg3.jmud.objects.ContainerObject" />
+		<mapping class="net.arg3.jmud.objects.FoodObject"/>
+		<mapping class="net.arg3.jmud.objects.LightObject"/>
+		<mapping class="net.arg3.jmud.objects.LiquidContainerObject"/>
+		<mapping class="net.arg3.jmud.objects.PillObject"/>
+		<mapping class="net.arg3.jmud.objects.ScrollObject"/>
+		<mapping class="net.arg3.jmud.objects.StaffObject"/>
+		<mapping class="net.arg3.jmud.objects.TrashObject"/>
+		<mapping class="net.arg3.jmud.objects.WandObject"/>
+		<mapping class="net.arg3.jmud.objects.PotionObject"/>
+		<mapping class="net.arg3.jmud.objects.WeaponObject"/>
+		<mapping class="net.arg3.jmud.objects.FurnitureObject"/>
+		<mapping class="net.arg3.jmud.objects.KeyObject"/>
+		<mapping class="net.arg3.jmud.objects.MapObject"/>
+		<mapping class="net.arg3.jmud.objects.MoneyObject"/>
+		<mapping class="net.arg3.jmud.objects.PortalObject"/>
+		<mapping class="net.arg3.jmud.objects.RaftObject"/>
+		<mapping class="net.arg3.jmud.objects.TreasureObject"/>
+		<mapping class="net.arg3.jmud.objects.WarpStoneObject"/>
+		<mapping class="net.arg3.jmud.Shop" />
+		<mapping class="net.arg3.jmud.Reset" />
+		<mapping class="net.arg3.jmud.NonPlayer" />
+		<mapping class="net.arg3.jmud.Hint" />
+		<mapping class="net.arg3.jmud.World" />
+		<mapping class="net.arg3.jmud.Social" />
+		<mapping class="net.arg3.jmud.Ability" />
+	</session-factory>
+</hibernate-configuration>
