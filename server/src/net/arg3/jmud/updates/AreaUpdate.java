@@ -1,7 +1,7 @@
 package net.arg3.jmud.updates;
 
-import net.arg3.jmud.Area;
 import net.arg3.jmud.interfaces.ITickable;
+import net.arg3.jmud.model.Area;
 
 public class AreaUpdate implements ITickable {
 

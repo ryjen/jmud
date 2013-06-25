@@ -1,8 +1,8 @@
 package net.arg3.jmud.abilities;
 
 import net.arg3.jmud.Argument;
-import net.arg3.jmud.Character;
-import net.arg3.jmud.Spell;
+import net.arg3.jmud.model.Character;
+import net.arg3.jmud.model.Spell;
 
 public class SanctuaryAbility extends Spell {
 

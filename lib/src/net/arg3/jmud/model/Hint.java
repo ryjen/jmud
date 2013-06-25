@@ -4,7 +4,7 @@
  * Package: net.arg3.jmud
  * Author: Ryan Jennings <c0der78@gmail.com>
  */
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import net.arg3.jmud.Jmud;
 import net.arg3.jmud.interfaces.IDataObject;
 import net.arg3.jmud.interfaces.IFormatible;
 
@@ -56,7 +57,7 @@ public class Hint implements IDataObject<Integer>, IFormatible {
 			return false;
 		}
 		Hint other = (Hint) obj;
-		if (getId() != other.getId()) {
+		if (getId().equals(other.getId())) {
 			return false;
 		}
 		return true;

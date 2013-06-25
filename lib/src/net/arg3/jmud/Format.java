@@ -8,6 +8,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.arg3.jmud.interfaces.IFormatible;
+import net.arg3.jmud.model.Character;
+import net.arg3.jmud.model.Room;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
 // default package
 import java.lang.reflect.Constructor;
@@ -18,6 +18,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import net.arg3.jmud.Jmud;
+import net.arg3.jmud.Persistance;
 import net.arg3.jmud.enums.Size;
 import net.arg3.jmud.interfaces.IDataObject;
 import net.arg3.jmud.interfaces.IFormatible;
@@ -38,7 +40,7 @@ public abstract class Race implements IDataObject<Integer>, IFormatible {
 	protected static final long serialVersionUID = 1L;
 	private static Set<Race> list;
 
-	public static Set<Race> getList() {
+	public static synchronized Set<Race> getList() {
 		if (list == null) {
 			list = new HashSet<Race>();
 			list.addAll(Persistance.getAll(Race.class));
@@ -107,7 +109,7 @@ public abstract class Race implements IDataObject<Integer>, IFormatible {
 			return false;
 		}
 		Race other = (Race) obj;
-		if (getId() != other.getId()) {
+		if (getId().equals(other.getId())) {
 			return false;
 		}
 		return true;

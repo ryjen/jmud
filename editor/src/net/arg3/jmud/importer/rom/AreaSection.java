@@ -3,9 +3,9 @@ package net.arg3.jmud.importer.rom;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import net.arg3.jmud.Area;
 import net.arg3.jmud.Persistance;
 import net.arg3.jmud.importer.FileReader;
+import net.arg3.jmud.model.Area;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

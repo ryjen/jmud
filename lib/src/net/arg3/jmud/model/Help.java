@@ -4,7 +4,7 @@
  * Package: net.arg3.jmud.server
  * Author: Ryan Jennings <c0der78@gmail.com>
  */
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,6 +19,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
+import net.arg3.jmud.Jmud;
+import net.arg3.jmud.Persistance;
 import net.arg3.jmud.interfaces.IDataObject;
 import net.arg3.jmud.interfaces.IFormatible;
 
@@ -48,7 +50,7 @@ public class Help implements IDataObject<Integer>, IFormatible {
 		return null;
 	}
 
-	public static Set<Help> getList() {
+	public static synchronized Set<Help> getList() {
 		if (list == null) {
 			// list = Collections.synchronizedSet(new HashSet<Help>());
 			list = new HashSet<Help>();
@@ -89,7 +91,7 @@ public class Help implements IDataObject<Integer>, IFormatible {
 			return false;
 		}
 		Help other = (Help) obj;
-		if (getId() != other.getId()) {
+		if (getId().equals(other.getId())) {
 			return false;
 		}
 		return true;

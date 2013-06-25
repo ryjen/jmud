@@ -4,10 +4,13 @@
  * Package: net.arg3.jmud.server
  * Author: Ryan Jennings <c0der78@gmail.com>
  */
-package net.arg3.jmud;
+package net.arg3.jmud.model;
+
+import java.io.Serializable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -16,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import net.arg3.jmud.Jmud;
 import net.arg3.jmud.annotations.FlagValue;
 import net.arg3.jmud.enums.Direction;
 import net.arg3.jmud.interfaces.IDataObject;
@@ -28,14 +32,14 @@ import net.arg3.jmud.interfaces.IFormatible;
  */
 @Entity
 @Table(name = "room_exit")
-public class Exit implements IDataObject<ExitPK>, IFlaggable<Integer>,
+public class Exit implements IDataObject<Exit.PK>, IFlaggable<Integer>,
 		IFormatible {
 
 	private static final long serialVersionUID = 1L;
 	private Room toRoom;
 	// private Room room;
 	// private Direction direction;
-	private ExitPK id = new ExitPK();
+	private PK id = new PK();
 	private String description;
 	private String keywords;
 	private long key;
@@ -54,7 +58,7 @@ public class Exit implements IDataObject<ExitPK>, IFlaggable<Integer>,
 	public static final int NOLOCK = (1 << 4);
 
 	@Override
-	public int compareTo(IDataObject<ExitPK> o) {
+	public int compareTo(IDataObject<PK> o) {
 		return getId().compareTo(o.getId());
 	}
 
@@ -70,7 +74,7 @@ public class Exit implements IDataObject<ExitPK>, IFlaggable<Integer>,
 
 	@Override
 	@Id
-	public ExitPK getId() {
+	public PK getId() {
 		return id;
 	}
 
@@ -127,7 +131,7 @@ public class Exit implements IDataObject<ExitPK>, IFlaggable<Integer>,
 	}
 
 	@Override
-	public void setId(ExitPK id) {
+	public void setId(PK id) {
 		this.id = id;
 	}
 
@@ -183,4 +187,76 @@ public class Exit implements IDataObject<ExitPK>, IFlaggable<Integer>,
 	protected int getSaveInfo() {
 		return saveInfo;
 	}
+	
+
+/**
+ * 
+ * @author Ryan
+ */
+@Embeddable
+public static class PK implements Serializable, Comparable<PK> {
+
+	private static final long serialVersionUID = 1L;
+	private Room room;
+	private Direction direction;
+
+	@Override
+	public int compareTo(PK o) {
+		return getDirection().compareTo(o.getDirection());
+	}
+
+	@Override
+	public boolean equals(java.lang.Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final PK other = (PK) obj;
+		if (this.getRoom() != other.getRoom()
+				&& (this.getRoom() == null || !this.getRoom().equals(
+						other.getRoom()))) {
+			return false;
+		}
+		if (this.getDirection() != other.getDirection()) {
+			return false;
+		}
+		return true;
+	}
+
+	@Column(name = "direction", columnDefinition = "tinyint")
+	public Direction getDirection() {
+		return direction;
+	}
+
+	@ManyToOne(targetEntity = Room.class, fetch = FetchType.EAGER)
+	@JoinColumn(name = "room_id")
+	public Room getRoom() {
+		return room;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 3;
+		hash = 89 * hash
+				+ (this.getRoom() != null ? this.getRoom().hashCode() : 0);
+		hash = 89 * hash + this.getDirection().hashCode();
+		return hash;
+	}
+
+	public void setDirection(Direction dir) {
+		this.direction = dir;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+
+	@Override
+	public String toString() {
+		return (direction == null ? "?" : direction.toString());
+	}
+}
+
 }

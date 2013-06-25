@@ -1,4 +1,4 @@
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
 // default package
 // Generated 12-Sep-2009 1:43:25 AM by Hibernate Tools 3.2.5.Beta

@@ -4,11 +4,11 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
-import net.arg3.jmud.Object;
+import net.arg3.jmud.model.AbstractObject;
 
 @Entity
 @DiscriminatorValue("money")
-public class MoneyObject extends Object {
+public class MoneyObject extends AbstractObject {
 
 	private static final long serialVersionUID = 1L;
 

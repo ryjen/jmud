@@ -2,8 +2,8 @@ package net.arg3.jmud.races;
 
 import javax.persistence.Entity;
 
-import net.arg3.jmud.Race;
 import net.arg3.jmud.enums.Size;
+import net.arg3.jmud.model.Race;
 
 @Entity
 public class SnakeRace extends Race {

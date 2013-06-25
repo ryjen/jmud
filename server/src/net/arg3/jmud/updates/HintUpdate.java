@@ -6,10 +6,10 @@
  */
 package net.arg3.jmud.updates;
 
-import net.arg3.jmud.Hint;
 import net.arg3.jmud.Jmud;
-import net.arg3.jmud.Player;
 import net.arg3.jmud.interfaces.ITickable;
+import net.arg3.jmud.model.Hint;
+import net.arg3.jmud.model.Player;
 import net.wimpi.telnetd.io.terminal.ColorHelper;
 
 /**

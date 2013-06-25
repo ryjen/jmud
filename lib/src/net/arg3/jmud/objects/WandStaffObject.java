@@ -1,8 +1,11 @@
-package net.arg3.jmud;
+package net.arg3.jmud.objects;
 
 import javax.persistence.Transient;
 
-public class WandStaffObject extends Object {
+import net.arg3.jmud.model.AbstractObject;
+import net.arg3.jmud.model.Spell;
+
+public class WandStaffObject extends AbstractObject {
 
 	protected static final long serialVersionUID = 1L;
 	int spellLevel;

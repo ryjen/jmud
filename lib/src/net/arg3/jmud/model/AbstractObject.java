@@ -4,7 +4,7 @@
  * Package: net.arg3.jmud.world
  * Author: Ryan Jennings <c0der78@gmail.com>
  */
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -37,6 +37,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import net.arg3.jmud.Flag;
+import net.arg3.jmud.Jmud;
+import net.arg3.jmud.Money;
 import net.arg3.jmud.annotations.FlagValue;
 import net.arg3.jmud.enums.WearLocation;
 import net.arg3.jmud.interfaces.IAffectable;
@@ -52,7 +55,7 @@ import net.arg3.jmud.interfaces.IFormatible;
 @Table(name = "object")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
-public abstract class Object implements IDataObject<Long>, IFormatible,
+public abstract class AbstractObject implements IDataObject<Long>, IFormatible,
 		IAffectable, IEnvironmental, Cloneable {
 
 	@FlagValue
@@ -75,12 +78,12 @@ public abstract class Object implements IDataObject<Long>, IFormatible,
 	public static final long ANTIGOOD = (1L << 8);
 
 	private static final long serialVersionUID = 1L;
-	private static Set<Object> list = null;
+	private static Set<AbstractObject> list = null;
 
-	public static Set<Object> getList() {
+	public static Set<AbstractObject> getList() {
 		if (list == null) {
 			// list = Collections.synchronizedSet(new HashSet<Object>());
-			list = new HashSet<Object>();
+			list = new HashSet<AbstractObject>();
 		}
 		return list;
 	}
@@ -95,8 +98,8 @@ public abstract class Object implements IDataObject<Long>, IFormatible,
 	private Area area;
 	private Character carriedBy;
 	private WearLocation wearLocation;
-	private Set<Object> contents;
-	private Object inside;
+	private Set<AbstractObject> contents;
+	private AbstractObject inside;
 	private Room room;
 	private int level;
 	private int condition;
@@ -105,7 +108,7 @@ public abstract class Object implements IDataObject<Long>, IFormatible,
 	private Flag wearFlags;
 	protected List<java.lang.Object> values;
 
-	public Object() {
+	public AbstractObject() {
 		getList().add(this);
 		flags = new Flag();
 		wearFlags = new Flag();
@@ -115,13 +118,13 @@ public abstract class Object implements IDataObject<Long>, IFormatible,
 	}
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
+	protected AbstractObject clone() throws CloneNotSupportedException {
 
-		Object clone = (Object) super.clone();
+		AbstractObject clone = (AbstractObject) super.clone();
 
 		clone.cost = cost.clone();
 		clone.flags = flags.clone();
-		for (Object c : contents) {
+		for (AbstractObject c : contents) {
 			clone.contents.add(c.clone());
 		}
 		for (Affect a : affects) {
@@ -158,11 +161,11 @@ public abstract class Object implements IDataObject<Long>, IFormatible,
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof Object)) {
+		if (!(obj instanceof AbstractObject)) {
 			return false;
 		}
-		Object other = (Object) obj;
-		if (getId() != other.getId()) {
+		AbstractObject other = (AbstractObject) obj;
+		if (getId().equals(other.getId())) {
 			return false;
 		}
 		return true;
@@ -188,8 +191,8 @@ public abstract class Object implements IDataObject<Long>, IFormatible,
 		return condition;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "inside", targetEntity = Object.class, fetch = FetchType.EAGER)
-	public Set<Object> getContents() {
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "inside", targetEntity = AbstractObject.class, fetch = FetchType.EAGER)
+	public Set<AbstractObject> getContents() {
 		return contents;
 	}
 
@@ -239,9 +242,9 @@ public abstract class Object implements IDataObject<Long>, IFormatible,
 		return id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = true, targetEntity = Object.class)
+	@ManyToOne(fetch = FetchType.LAZY, optional = true, targetEntity = AbstractObject.class)
 	@JoinColumn(name = "inside_id")
-	public Object getInside() {
+	public AbstractObject getInside() {
 		return inside;
 	}
 
@@ -335,7 +338,7 @@ public abstract class Object implements IDataObject<Long>, IFormatible,
 		this.condition = value;
 	}
 
-	public void setContents(Set<Object> value) {
+	public void setContents(Set<AbstractObject> value) {
 		contents = value;
 	}
 
@@ -373,7 +376,7 @@ public abstract class Object implements IDataObject<Long>, IFormatible,
 		this.id = id;
 	}
 
-	public void setInside(Object value) {
+	public void setInside(AbstractObject value) {
 		inside = value;
 	}
 

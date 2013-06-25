@@ -1,4 +1,4 @@
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import net.arg3.jmud.Jmud;
 import net.arg3.jmud.enums.ApplyType;
 import net.arg3.jmud.enums.DamType;
 import net.arg3.jmud.enums.StatType;
@@ -200,6 +201,8 @@ public class Affect implements IDataObject<Long>, IFormatible, Cloneable {
 			break;
 		case Move:
 			to.getVitals().adjustMove(modifier);
+			break;
+		default:
 			break;
 		}
 	}

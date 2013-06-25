@@ -1,6 +1,6 @@
 package net.arg3.jmud.interfaces;
 
-import net.arg3.jmud.Affect;
+import net.arg3.jmud.model.Affect;
 
 public interface IAffectable {
 	void addAffect(Affect af);

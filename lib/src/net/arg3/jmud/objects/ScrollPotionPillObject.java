@@ -1,11 +1,14 @@
-package net.arg3.jmud;
+package net.arg3.jmud.objects;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Transient;
 
-public abstract class ScrollPotionPillObject extends Object {
+import net.arg3.jmud.model.AbstractObject;
+import net.arg3.jmud.model.Spell;
+
+public abstract class ScrollPotionPillObject extends AbstractObject {
 
 	protected static final long serialVersionUID = 1L;
 

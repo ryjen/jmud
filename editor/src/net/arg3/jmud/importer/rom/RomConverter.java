@@ -8,15 +8,8 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.arg3.jmud.Affect;
 import net.arg3.jmud.Attack;
-import net.arg3.jmud.Exit;
 import net.arg3.jmud.Jmud;
-import net.arg3.jmud.NonPlayer;
-import net.arg3.jmud.Object;
-import net.arg3.jmud.Race;
-import net.arg3.jmud.Room;
-import net.arg3.jmud.Spell;
 import net.arg3.jmud.WearFlags;
 import net.arg3.jmud.enums.ApplyType;
 import net.arg3.jmud.enums.DamType;
@@ -27,6 +20,13 @@ import net.arg3.jmud.enums.Sex;
 import net.arg3.jmud.enums.Size;
 import net.arg3.jmud.enums.WeaponClass;
 import net.arg3.jmud.importer.ImportException;
+import net.arg3.jmud.model.AbstractObject;
+import net.arg3.jmud.model.Affect;
+import net.arg3.jmud.model.Exit;
+import net.arg3.jmud.model.NonPlayer;
+import net.arg3.jmud.model.Race;
+import net.arg3.jmud.model.Room;
+import net.arg3.jmud.model.Spell;
 import net.arg3.jmud.objects.ArmorObject;
 import net.arg3.jmud.objects.ContainerObject;
 import net.arg3.jmud.objects.FoodObject;
@@ -47,7 +47,6 @@ import net.arg3.jmud.objects.TreasureObject;
 import net.arg3.jmud.objects.WandObject;
 import net.arg3.jmud.objects.WarpStoneObject;
 import net.arg3.jmud.objects.WeaponObject;
-
 /**
  * 
  * @author Ryan
@@ -151,12 +150,12 @@ public class RomConverter {
 		if (objFlags == null) {
 			objFlags = new HashMap<Long, Long>();
 
-			objFlags.put(F, Object.INVIS);
-			objFlags.put(G, Object.MAGIC);
-			objFlags.put(H, Object.NODROP);
-			objFlags.put(M, Object.NOREMOVE);
-			objFlags.put(P, Object.ROTDEATH);
-			objFlags.put(Y, Object.BURNPROOF);
+			objFlags.put(F, AbstractObject.INVIS);
+			objFlags.put(G, AbstractObject.MAGIC);
+			objFlags.put(H, AbstractObject.NODROP);
+			objFlags.put(M, AbstractObject.NOREMOVE);
+			objFlags.put(P, AbstractObject.ROTDEATH);
+			objFlags.put(Y, AbstractObject.BURNPROOF);
 		}
 
 		long rval = 0;
@@ -251,12 +250,12 @@ public class RomConverter {
 		return rval;
 	}
 
-	static Map<String, Class<? extends Object>> itemTypes;
+	static Map<String, Class<? extends AbstractObject>> itemTypes;
 
-	public static Object createObjectType(String name) {
+	public static AbstractObject createObjectType(String name) {
 		if (itemTypes == null) {
 
-			itemTypes = new HashMap<String, Class<? extends Object>>();
+			itemTypes = new HashMap<String, Class<? extends AbstractObject>>();
 			itemTypes.put("light", LightObject.class);
 			itemTypes.put("scroll", ScrollObject.class);
 			itemTypes.put("wand", WandObject.class);
@@ -282,11 +281,11 @@ public class RomConverter {
 			itemTypes.put("treasure", TreasureObject.class);
 		}
 
-		for (Map.Entry<String, Class<? extends Object>> entry : itemTypes
+		for (Map.Entry<String, Class<? extends AbstractObject>> entry : itemTypes
 				.entrySet()) {
 			if (Jmud.isName(entry.getKey(), name)) {
 				try {
-					Constructor<? extends Object> c = entry.getValue()
+					Constructor<? extends AbstractObject> c = entry.getValue()
 							.getConstructor();
 
 					return c.newInstance();
@@ -606,11 +605,11 @@ public class RomConverter {
 		return Spell.lookup(readWord);
 	}
 
-	static Map<Integer, Class<? extends Object>> itemTypeNumbers;
+	static Map<Integer, Class<? extends AbstractObject>> itemTypeNumbers;
 
-	public static Object createObjectType(int readNumber) {
+	public static AbstractObject createObjectType(int readNumber) {
 		if (itemTypeNumbers == null) {
-			itemTypeNumbers = new HashMap<Integer, Class<? extends Object>>();
+			itemTypeNumbers = new HashMap<Integer, Class<? extends AbstractObject>>();
 			itemTypeNumbers.put(1, LightObject.class);
 			itemTypeNumbers.put(2, ScrollObject.class);
 			itemTypeNumbers.put(3, WandObject.class);
@@ -637,11 +636,11 @@ public class RomConverter {
 			itemTypeNumbers.put(33, TreasureObject.class);
 		}
 
-		for (Map.Entry<Integer, Class<? extends Object>> entry : itemTypeNumbers
+		for (Map.Entry<Integer, Class<? extends AbstractObject>> entry : itemTypeNumbers
 				.entrySet()) {
 			if (entry.getKey() == readNumber) {
 				try {
-					Constructor<? extends Object> c = entry.getValue()
+					Constructor<? extends AbstractObject> c = entry.getValue()
 							.getConstructor();
 
 					return c.newInstance();

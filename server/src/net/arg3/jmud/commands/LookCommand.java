@@ -7,10 +7,9 @@
 package net.arg3.jmud.commands;
 
 import net.arg3.jmud.Argument;
-import net.arg3.jmud.Character;
-import net.arg3.jmud.Object;
-import net.arg3.jmud.Room;
 import net.arg3.jmud.enums.Direction;
+import net.arg3.jmud.model.Character;
+import net.arg3.jmud.model.Room;
 import net.wimpi.telnetd.io.terminal.ColorHelper;
 
 import org.slf4j.Logger;
@@ -35,7 +34,7 @@ public class LookCommand extends Command {
 	 * java.lang.String)
 	 */
 	@Override
-	public int execute(net.arg3.jmud.Character ch, Argument argument) {
+	public int execute(Character ch, Argument argument) {
 
 		Room room;
 

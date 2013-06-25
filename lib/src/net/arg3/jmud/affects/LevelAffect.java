@@ -3,9 +3,9 @@ package net.arg3.jmud.affects;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import net.arg3.jmud.Affect;
-import net.arg3.jmud.Character;
 import net.arg3.jmud.interfaces.IAffectable;
+import net.arg3.jmud.model.Affect;
+import net.arg3.jmud.model.Character;
 
 import org.slf4j.LoggerFactory;
 

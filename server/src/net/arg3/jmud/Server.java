@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.LogManager;
 
+import net.arg3.jmud.model.Character;
 import net.arg3.jmud.updates.Updater;
 import net.wimpi.telnetd.BootException;
 import net.wimpi.telnetd.TelnetD;

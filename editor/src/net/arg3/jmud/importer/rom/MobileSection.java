@@ -4,17 +4,17 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.arg3.jmud.Affect;
 import net.arg3.jmud.Argument;
 import net.arg3.jmud.Dice;
 import net.arg3.jmud.Jmud;
-import net.arg3.jmud.NonPlayer;
 import net.arg3.jmud.Persistance;
-import net.arg3.jmud.Race;
 import net.arg3.jmud.enums.DamType;
 import net.arg3.jmud.enums.Ethos;
 import net.arg3.jmud.importer.FileReader;
 import net.arg3.jmud.importer.ImportException;
+import net.arg3.jmud.model.Affect;
+import net.arg3.jmud.model.NonPlayer;
+import net.arg3.jmud.model.Race;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

@@ -10,10 +10,10 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 import net.arg3.jmud.Argument;
-import net.arg3.jmud.Character;
 import net.arg3.jmud.Jmud;
-import net.arg3.jmud.Player;
 import net.arg3.jmud.interfaces.IExecutable;
+import net.arg3.jmud.model.Character;
+import net.arg3.jmud.model.Player;
 
 /**
  * @author Ryan Jennings <c0der78@gmail.com>

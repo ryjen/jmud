@@ -1,8 +1,8 @@
 package net.arg3.jmud.commands;
 
 import net.arg3.jmud.Argument;
-import net.arg3.jmud.Character;
-import net.arg3.jmud.Help;
+import net.arg3.jmud.model.Character;
+import net.arg3.jmud.model.Help;
 
 public class HelpCommand extends Command {
 

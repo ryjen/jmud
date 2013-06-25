@@ -4,11 +4,11 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
-import net.arg3.jmud.Object;
+import net.arg3.jmud.model.AbstractObject;
 
 @Entity
 @DiscriminatorValue("liquid_container")
-public class LiquidContainerObject extends Object {
+public class LiquidContainerObject extends AbstractObject {
 
 	private static final long serialVersionUID = 1L;
 	int liquidTotal;

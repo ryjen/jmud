@@ -1,4 +1,4 @@
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
 // default package
 import javax.persistence.Column;

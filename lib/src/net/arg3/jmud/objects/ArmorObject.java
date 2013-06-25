@@ -8,12 +8,12 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
-import net.arg3.jmud.Object;
 import net.arg3.jmud.enums.DamType;
+import net.arg3.jmud.model.AbstractObject;
 
 @Entity
 @DiscriminatorValue("armor")
-public class ArmorObject extends Object {
+public class ArmorObject extends AbstractObject {
 
 	private static final long serialVersionUID = 1L;
 	Map<DamType, Integer> resistances;

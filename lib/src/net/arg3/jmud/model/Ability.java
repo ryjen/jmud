@@ -1,4 +1,4 @@
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
 // default package
 // Generated 12-Sep-2009 1:43:25 AM by Hibernate Tools 3.2.5.Beta
@@ -18,6 +18,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import net.arg3.jmud.Persistance;
 import net.arg3.jmud.interfaces.IDataObject;
 import net.arg3.jmud.interfaces.IEnvironmental;
 import net.arg3.jmud.interfaces.IExecutable;
@@ -40,7 +41,7 @@ public abstract class Ability implements Serializable, IExecutable,
 	private static final long serialVersionUID = 1L;
 	private static Set<Ability> list = null;
 
-	public static Set<Ability> getList() {
+	public static synchronized Set<Ability> getList() {
 		if (list == null) {
 			// list = Collections.synchronizedSet(new HashSet<Ability>());
 			list = new HashSet<Ability>();

@@ -7,7 +7,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
-import net.arg3.jmud.Object;
+import net.arg3.jmud.model.AbstractObject;
 
 /**
  * @author Ryan
@@ -15,7 +15,7 @@ import net.arg3.jmud.Object;
  */
 @Entity
 @DiscriminatorValue("raft")
-public class RaftObject extends Object {
+public class RaftObject extends AbstractObject {
 
 	private static final long serialVersionUID = 1L;
 

@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Random;
@@ -22,6 +23,9 @@ import java.util.regex.Pattern;
 import net.arg3.jmud.annotations.FlagValue;
 import net.arg3.jmud.interfaces.IAction;
 import net.arg3.jmud.interfaces.IDataObject;
+import net.arg3.jmud.model.AbstractObject;
+import net.arg3.jmud.model.Character;
+import net.arg3.jmud.model.Room;
 
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +35,7 @@ public final class Jmud {
 	public static final String CRLF = "\r\n";
 	public static final String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
 
-	public static String toCommaSeparatedValues(java.lang.Object[] values) {
+	public static String toCommaSeparatedValues(Iterable<?> values) {
 		return deliminate(",", values);
 	}
 
@@ -57,8 +61,20 @@ public final class Jmud {
 		}
 		return null;
 	}
+	
+	public static AbstractObject findObj(IAction<AbstractObject> action) {
+		return find(AbstractObject.getList(), action);
+	}
+	
+	public static Room findRoom(IAction<Room> action) {
+		return find(Room.getList(), action);
+	}
+	
+	public static Character findChar(IAction<Character> action) {
+		return find(Character.getList(), action);
+	}
 
-	public static String deliminate(String delimiter, java.lang.Object[] values) {
+	public static String deliminate(String delimiter, Iterable<?> values) {
 		StringBuilder buf = new StringBuilder();
 		for (java.lang.Object value : values) {
 			buf.append(value.toString());
@@ -150,7 +166,7 @@ public final class Jmud {
 		return range(number - 1, number + 1);
 	}
 
-	public static String[] getFlagNames(Class<?> type) {
+	public static List<String> getFlagNames(Class<?> type) {
 		ArrayList<String> names = new ArrayList<String>();
 
 		for (Field field : type.getDeclaredFields()) {
@@ -162,10 +178,10 @@ public final class Jmud {
 
 			names.add(field.getName());
 		}
-		return (String[]) names.toArray();
+		return Collections.unmodifiableList(names);
 	}
 
-	public static String[] getFlagNames(Class<?> type, Long checkOn) {
+	public static List<String> getFlagNames(Class<?> type, Long checkOn) {
 		ArrayList<String> names = new ArrayList<String>();
 
 		for (Field field : type.getDeclaredFields()) {
@@ -184,10 +200,10 @@ public final class Jmud {
 						field.getName() + " has @FlagValue but is not a Long");
 			}
 		}
-		return (String[]) names.toArray();
+		return Collections.unmodifiableList(names);
 	}
 
-	public static Long[] getFlagValues(Class<?> type) {
+	public static List<Long> getFlagValues(Class<?> type) {
 		ArrayList<Long> values = new ArrayList<Long>();
 
 		for (Field field : type.getDeclaredFields()) {
@@ -201,7 +217,7 @@ public final class Jmud {
 				LoggerFactory.getLogger(type).error(ex.getMessage());
 			}
 		}
-		return (Long[]) values.toArray();
+		return Collections.unmodifiableList(values);
 	}
 
 	public static int interpolate(int level, int value_00, int value_32) {
@@ -349,20 +365,20 @@ public final class Jmud {
 		}
 		p = Pattern.compile("[^A-Za-z0-9\\.\\@_\\-~#]+");
 		m = p.matcher(input);
-		StringBuffer sb = new StringBuffer();
+		//StringBuffer sb = new StringBuffer();
 		boolean result = m.find();
 		boolean deletedIllegalChars = false;
 
 		while (result) {
 			deletedIllegalChars = true;
-			m.appendReplacement(sb, "");
+			//m.appendReplacement(sb, "");
 			result = m.find();
 		}
 
 		// Add the last segment of input to the new String
-		m.appendTail(sb);
+		//m.appendTail(sb);
 
-		input = sb.toString();
+		//input = sb.toString();
 
 		if (deletedIllegalChars) {
 			return "Address contains incorrect characters"

@@ -5,8 +5,8 @@ import java.io.StringWriter;
 
 import junit.framework.TestCase;
 import net.arg3.jmud.Persistance;
-import net.arg3.jmud.Reset;
-import net.arg3.jmud.Room;
+import net.arg3.jmud.model.Reset;
+import net.arg3.jmud.model.Room;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

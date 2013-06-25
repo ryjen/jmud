@@ -3,9 +3,9 @@ package net.arg3.jmud.commands;
 import java.util.TreeSet;
 
 import net.arg3.jmud.Argument;
-import net.arg3.jmud.Character;
-import net.arg3.jmud.Player;
 import net.arg3.jmud.channels.Channel;
+import net.arg3.jmud.model.Character;
+import net.arg3.jmud.model.Player;
 
 public class CommandsCommand extends Command {
 

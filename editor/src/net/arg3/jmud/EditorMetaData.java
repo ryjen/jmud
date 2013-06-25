@@ -7,6 +7,21 @@
 package net.arg3.jmud;
 
 import net.arg3.jmud.interfaces.IDataObject;
+import net.arg3.jmud.model.Ability;
+import net.arg3.jmud.model.Account;
+import net.arg3.jmud.model.Affect;
+import net.arg3.jmud.model.Area;
+import net.arg3.jmud.model.Continent;
+import net.arg3.jmud.model.Exit;
+import net.arg3.jmud.model.Help;
+import net.arg3.jmud.model.Hint;
+import net.arg3.jmud.model.NonPlayer;
+import net.arg3.jmud.model.Profession;
+import net.arg3.jmud.model.Race;
+import net.arg3.jmud.model.Reset;
+import net.arg3.jmud.model.Room;
+import net.arg3.jmud.model.Shop;
+import net.arg3.jmud.model.Social;
 import net.arg3.jmud.view.AbstractDefaultView;
 import net.arg3.jmud.view.DefaultView;
 

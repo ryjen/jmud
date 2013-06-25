@@ -4,7 +4,7 @@
  * Package: net.arg3.jmud
  * Author: Ryan Jennings <c0der78@gmail.com>
  */
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
 import java.util.HashSet;
 import java.util.Queue;
@@ -23,6 +23,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import net.arg3.jmud.Argument;
+import net.arg3.jmud.Attack;
+import net.arg3.jmud.Flag;
+import net.arg3.jmud.Persistance;
 import net.arg3.jmud.annotations.FlagValue;
 import net.arg3.jmud.enums.DamType;
 import net.arg3.jmud.interfaces.IExecutable;
@@ -47,7 +51,7 @@ import org.slf4j.LoggerFactory;
 @Table(name = "player")
 @Inheritance(strategy = InheritanceType.JOINED)
 @OnDelete(action = OnDeleteAction.CASCADE)
-public class Player extends Character implements ITickable {
+public class Player extends net.arg3.jmud.model.Character implements ITickable {
 
 	private static final long serialVersionUID = 1L;
 	@FlagValue
@@ -80,7 +84,7 @@ public class Player extends Character implements ITickable {
 		}
 	}
 
-	public static Set<Player> getPlaying() {
+	public static synchronized Set<Player> getPlaying() {
 		if (list == null) {
 			// list = Collections.synchronizedSet(new HashSet<Player>());
 			list = new HashSet<Player>();

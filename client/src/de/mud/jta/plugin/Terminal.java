@@ -133,19 +133,23 @@ public class Terminal extends Plugin implements FilterPlugin,
 		// create the terminal emulation
 		emulation = new vt320() {
 			// provide audio feedback if that is configured
+			@Override
 			public void beep() {
 				if (audioBeep != null)
 					bus.broadcast(audioBeep);
 			}
 
+			@Override
 			public void sendTelnetCommand(byte cmd) {
 				bus.broadcast(new TelnetCommandRequest(cmd));
 			}
 
+			@Override
 			public void setWindowSize(int c, int r) {
 				bus.broadcast(new SetWindowSizeRequest(c, r));
 			}
 
+			@Override
 			public void write(byte[] b) {
 				try {
 					Terminal.this.write(b);
@@ -181,21 +185,23 @@ public class Terminal extends Plugin implements FilterPlugin,
 			JMenu bgm = new JMenu("Background");
 			Enumeration<String> cols = colors.keys();
 			ActionListener fgl = new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
-					terminal.setForeground((Color) colors.get(e
+					terminal.setForeground(colors.get(e
 							.getActionCommand()));
 					tPanel.repaint();
 				}
 			};
 			ActionListener bgl = new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
-					terminal.setBackground((Color) colors.get(e
+					terminal.setBackground(colors.get(e
 							.getActionCommand()));
 					tPanel.repaint();
 				}
 			};
 			while (cols.hasMoreElements()) {
-				String color = (String) cols.nextElement();
+				String color = cols.nextElement();
 				fgm.add(item = new JMenuItem(color));
 				item.addActionListener(fgl);
 				bgm.add(item = new JMenuItem(color));
@@ -206,6 +212,7 @@ public class Terminal extends Plugin implements FilterPlugin,
 
 			menu.add(item = new JMenuItem("Smaller Font"));
 			item.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					Font font = terminal.getFont();
 					terminal.setFont(new Font(font.getName(), font.getStyle(),
@@ -225,6 +232,7 @@ public class Terminal extends Plugin implements FilterPlugin,
 			});
 			menu.add(item = new JMenuItem("Larger Font"));
 			item.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					Font font = terminal.getFont();
 					terminal.setFont(new Font(font.getName(), font.getStyle(),
@@ -244,12 +252,14 @@ public class Terminal extends Plugin implements FilterPlugin,
 			});
 			menu.add(item = new JMenuItem("Buffer +50"));
 			item.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					emulation.setBufferSize(emulation.getBufferSize() + 50);
 				}
 			});
 			menu.add(item = new JMenuItem("Buffer -50"));
 			item.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					emulation.setBufferSize(emulation.getBufferSize() - 50);
 				}
@@ -257,6 +267,7 @@ public class Terminal extends Plugin implements FilterPlugin,
 			menu.addSeparator();
 			menu.add(item = new JMenuItem("Reset Terminal"));
 			item.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					emulation.reset();
 				}
@@ -270,11 +281,13 @@ public class Terminal extends Plugin implements FilterPlugin,
 			private static final long serialVersionUID = 1L;
 
 			// we don't want to print the container, just the terminal contents
+			@Override
 			public void print(java.awt.Graphics g) {
 				terminal.print(g);
 			}
 
 			// reduce flickering
+			@Override
 			public void update(java.awt.Graphics g) {
 				paint(g);
 			}
@@ -282,6 +295,7 @@ public class Terminal extends Plugin implements FilterPlugin,
 		tPanel.add("Center", terminal);
 
 		terminal.addFocusListener(new FocusListener() {
+			@Override
 			public void focusGained(FocusEvent evt) {
 				log.debug("focus gained");
 				terminal.setCursor(Cursor
@@ -289,6 +303,7 @@ public class Terminal extends Plugin implements FilterPlugin,
 				bus.broadcast(new FocusStatus(Terminal.this, evt));
 			}
 
+			@Override
 			public void focusLost(FocusEvent evt) {
 				log.debug("focus lost");
 				terminal.setCursor(Cursor.getDefaultCursor());
@@ -310,6 +325,7 @@ public class Terminal extends Plugin implements FilterPlugin,
 		// from embeded terminal
 		// *******************************
 		terminal.addMouseListener(new MouseListener() {
+			@Override
 			public void mouseClicked(MouseEvent me) {
 				// make sure it only does the paste on button2(right mouse)
 				if (me.getButton() == MouseEvent.BUTTON3 && clipboard != null) {
@@ -317,16 +333,20 @@ public class Terminal extends Plugin implements FilterPlugin,
 				}
 			}
 
+			@Override
 			public void mouseEntered(MouseEvent arg0) {
 			}
 
+			@Override
 			public void mouseExited(MouseEvent arg0) {
 			}
 
+			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// System.out.println(">>>>MOUSE pressed");
 			}
 
+			@Override
 			public void mouseReleased(MouseEvent me) {
 				// make sure it only does the copy on button 1 (left mouse)
 				// System.out.println(">>>>MOUSE RELEASED");
@@ -346,12 +366,14 @@ public class Terminal extends Plugin implements FilterPlugin,
 
 		// register an online status listener
 		bus.registerPluginListener(new OnlineStatusListener() {
+			@Override
 			public void offline() {
 				log.debug("offline");
 				if (reader != null)
 					reader = null;
 			}
 
+			@Override
 			public void online() {
 				log.debug("online " + reader);
 				if (reader == null) {
@@ -362,12 +384,14 @@ public class Terminal extends Plugin implements FilterPlugin,
 		});
 
 		bus.registerPluginListener(new TerminalTypeListener() {
+			@Override
 			public String getTerminalType() {
 				return emulation.getTerminalID();
 			}
 		});
 
 		bus.registerPluginListener(new WindowSizeListener() {
+			@Override
 			public Dimension getWindowSize() {
 				return new Dimension(emulation.getColumns(), emulation
 						.getRows());
@@ -375,6 +399,7 @@ public class Terminal extends Plugin implements FilterPlugin,
 		});
 
 		bus.registerPluginListener(new LocalEchoListener() {
+			@Override
 			public void setLocalEcho(boolean echo) {
 				if (!localecho_overridden)
 					emulation.setLocalEcho(echo);
@@ -382,18 +407,21 @@ public class Terminal extends Plugin implements FilterPlugin,
 		});
 
 		bus.registerPluginListener(new ConfigurationListener() {
+			@Override
 			public void setConfiguration(PluginConfig config) {
 				configure(config);
 			}
 		});
 
 		bus.registerPluginListener(new ReturnFocusListener() {
+			@Override
 			public void returnFocus() {
 				terminal.requestFocus();
 			}
 		});
 	}
 
+	@Override
 	public void copy(Clipboard clipboard) {
 		String data = terminal.getSelection();
 		// check due to a bug in the hotspot vm
@@ -403,22 +431,27 @@ public class Terminal extends Plugin implements FilterPlugin,
 		clipboard.setContents(selection, this);
 	}
 
+	@Override
 	public FilterPlugin getFilterSource() {
 		return source;
 	}
 
+	@Override
 	public JMenu getPluginMenu() {
 		return menu;
 	}
 
+	@Override
 	public JComponent getPluginVisual() {
 		return tPanel;
 	}
 
+	@Override
 	public void lostOwnership(Clipboard clipboard, Transferable contents) {
 		terminal.clearSelection();
 	}
 
+	@Override
 	public void paste(Clipboard clipboard) {
 		if (clipboard == null)
 			return;
@@ -444,6 +477,7 @@ public class Terminal extends Plugin implements FilterPlugin,
 		}
 	}
 
+	@Override
 	public int read(byte[] b) throws IOException {
 		return source.read(b);
 	}
@@ -451,6 +485,7 @@ public class Terminal extends Plugin implements FilterPlugin,
 	/**
 	 * Continuously read from our back end and display the data on screen.
 	 */
+	@Override
 	public void run() {
 		byte[] b = new byte[256];
 		int n = 0;
@@ -468,18 +503,20 @@ public class Terminal extends Plugin implements FilterPlugin,
 			}
 	}
 
+	@Override
 	public void setFilterSource(FilterPlugin source) {
 		log.debug("connected to: " + source);
 		this.source = source;
 	}
 
+	@Override
 	public void write(byte[] b) throws IOException {
 		source.write(b);
 	}
 
 	private Color codeToColor(String code) {
 		if (colors.get(code) != null)
-			return (Color) colors.get(code);
+			return colors.get(code);
 		else
 			try {
 				if (Color.getColor(code) != null)

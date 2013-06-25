@@ -4,7 +4,7 @@
  * Package: net.arg3.jmud.server
  * Author: Ryan Jennings <c0der78@gmail.com>
  */
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +22,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import net.arg3.jmud.Flag;
+import net.arg3.jmud.Jmud;
+import net.arg3.jmud.Persistance;
 import net.arg3.jmud.interfaces.IDataObject;
 import net.arg3.jmud.interfaces.IFormatible;
 
@@ -40,7 +43,7 @@ public class Area implements IDataObject<Integer>, IFormatible {
 	private static final long serialVersionUID = 1L;
 	private static Set<Area> list = null;
 
-	public static Area createDefault() {
+	public static synchronized Area createDefault() {
 		if (getList().size() > 0) {
 			return getList().iterator().next();
 		}
@@ -59,7 +62,7 @@ public class Area implements IDataObject<Integer>, IFormatible {
 		return area;
 	}
 
-	public static Set<Area> getList() {
+	public static synchronized Set<Area> getList() {
 		if (list == null) {
 			// list = Collections.synchronizedSet(new HashSet<Area>());
 			list = new HashSet<Area>();
@@ -121,7 +124,7 @@ public class Area implements IDataObject<Integer>, IFormatible {
 			return false;
 		}
 		Area other = (Area) obj;
-		if (getId() != other.getId()) {
+		if (getId().equals(other.getId())) {
 			return false;
 		}
 		return true;

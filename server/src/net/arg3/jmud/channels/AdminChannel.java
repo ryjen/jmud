@@ -6,8 +6,8 @@
  */
 package net.arg3.jmud.channels;
 
-import net.arg3.jmud.Character;
 import net.arg3.jmud.World;
+import net.arg3.jmud.model.Character;
 import net.wimpi.telnetd.io.terminal.ColorHelper;
 
 /**

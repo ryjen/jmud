@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import net.arg3.jmud.Persistance;
-import net.arg3.jmud.Reset;
-import net.arg3.jmud.Room;
 import net.arg3.jmud.importer.FileReader;
 import net.arg3.jmud.importer.ImportException;
+import net.arg3.jmud.model.Reset;
+import net.arg3.jmud.model.Room;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

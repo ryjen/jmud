@@ -3,8 +3,8 @@ package net.arg3.jmud.importer.rom;
 import java.util.ArrayList;
 
 import net.arg3.jmud.Persistance;
-import net.arg3.jmud.Social;
 import net.arg3.jmud.importer.FileReader;
+import net.arg3.jmud.model.Social;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

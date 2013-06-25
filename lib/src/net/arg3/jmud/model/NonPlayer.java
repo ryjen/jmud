@@ -4,7 +4,7 @@
  * Package: net.arg3.jmud
  * Author: Ryan Jennings <c0der78@gmail.com>
  */
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -20,6 +20,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import net.arg3.jmud.Attack;
+import net.arg3.jmud.Dice;
+import net.arg3.jmud.Flag;
 import net.arg3.jmud.annotations.FlagValue;
 import net.arg3.jmud.enums.Position;
 import net.arg3.jmud.interfaces.IDataObject;

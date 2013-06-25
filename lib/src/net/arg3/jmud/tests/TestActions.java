@@ -1,9 +1,9 @@
 package net.arg3.jmud.tests;
 
 import junit.framework.TestCase;
-import net.arg3.jmud.Character;
-import net.arg3.jmud.NonPlayer;
 import net.arg3.jmud.enums.Sex;
+import net.arg3.jmud.model.Character;
+import net.arg3.jmud.model.NonPlayer;
 
 import org.junit.Test;
 

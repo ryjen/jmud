@@ -1,4 +1,4 @@
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import net.arg3.jmud.Jmud;
+import net.arg3.jmud.Persistance;
+import net.arg3.jmud.Stats;
 import net.arg3.jmud.interfaces.IDataObject;
 import net.arg3.jmud.interfaces.IFormatible;
 
@@ -26,7 +29,7 @@ public class Profession implements IDataObject<Integer>, IFormatible {
 	private static final long serialVersionUID = 1L;
 	private static Set<Profession> list = null;
 
-	public static Set<Profession> getList() {
+	public static synchronized Set<Profession> getList() {
 		if (list == null) {
 			// list = Collections.synchronizedSet(new HashSet<Profession>());
 			list = new HashSet<Profession>();
@@ -96,7 +99,7 @@ public class Profession implements IDataObject<Integer>, IFormatible {
 			return false;
 		}
 		Profession other = (Profession) obj;
-		if (getId() != other.getId()) {
+		if (getId().equals(other.getId())) {
 			return false;
 		}
 		return true;

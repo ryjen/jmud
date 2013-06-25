@@ -4,11 +4,11 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
-import net.arg3.jmud.Object;
+import net.arg3.jmud.model.AbstractObject;
 
 @Entity
 @DiscriminatorValue("trash")
-public class TrashObject extends Object {
+public class TrashObject extends AbstractObject {
 
 	private static final long serialVersionUID = 1L;
 

@@ -161,7 +161,7 @@ public class Persistance {
 		return mk == null ? null : mk.name();
 	}
 
-	public static Session getSession() {
+	public static synchronized Session getSession() {
 		if (sessionFactory == null) {
 			try {
 				Configuration config = new Configuration();

@@ -36,7 +36,7 @@ public class Flag implements IFlaggable<Long>, UserType, IFormatible, Cloneable 
 	}
 
 	@Override
-	protected Flag clone() throws CloneNotSupportedException {
+	public Flag clone() throws CloneNotSupportedException {
 		Flag f = (Flag) super.clone();
 
 		return f;
@@ -164,6 +164,6 @@ public class Flag implements IFlaggable<Long>, UserType, IFormatible, Cloneable 
 			if ((value & (1L << i)) != 0)
 				bits.add(i);
 		}
-		return Jmud.toCommaSeparatedValues(bits.toArray());
+		return Jmud.toCommaSeparatedValues(bits);
 	}
 }

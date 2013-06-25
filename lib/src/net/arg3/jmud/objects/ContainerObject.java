@@ -4,12 +4,12 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
-import net.arg3.jmud.Object;
 import net.arg3.jmud.annotations.FlagValue;
+import net.arg3.jmud.model.AbstractObject;
 
 @Entity
 @DiscriminatorValue("container")
-public class ContainerObject extends Object {
+public class ContainerObject extends AbstractObject {
 
 	private static final long serialVersionUID = 1L;
 	int maxWeight;

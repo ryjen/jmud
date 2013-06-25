@@ -10,12 +10,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import net.arg3.jmud.Argument;
-import net.arg3.jmud.Help;
 import net.arg3.jmud.Jmud;
-import net.arg3.jmud.Social;
 import net.arg3.jmud.channels.Channel;
 import net.arg3.jmud.enums.Direction;
 import net.arg3.jmud.interfaces.IExecutable;
+import net.arg3.jmud.model.Help;
+import net.arg3.jmud.model.Social;
 
 /**
  * @author Ryan Jennings <c0der78@gmail.com>
@@ -53,7 +53,7 @@ public abstract class Command implements IExecutable {
 		return list;
 	}
 
-	public static int Interpret(net.arg3.jmud.Character ch, String argument) {
+	public static int Interpret(net.arg3.jmud.model.Character ch, String argument) {
 
 		if (Jmud.isNullOrEmpty(argument)) {
 			return 0;
@@ -140,7 +140,7 @@ public abstract class Command implements IExecutable {
 	}
 
 	@Override
-	public abstract int execute(net.arg3.jmud.Character ch, Argument argument);
+	public abstract int execute(net.arg3.jmud.model.Character ch, Argument argument);
 
 	/**
 	 * @return the help

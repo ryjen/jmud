@@ -1,4 +1,4 @@
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import net.arg3.jmud.Argument;
+import net.arg3.jmud.Jmud;
+import net.arg3.jmud.Persistance;
 import net.arg3.jmud.interfaces.IDataObject;
 import net.arg3.jmud.interfaces.IExecutable;
 import net.arg3.jmud.interfaces.IFormatible;
@@ -21,7 +24,7 @@ public class Social implements IDataObject<Integer>, IExecutable, IFormatible {
 
 	private static Set<Social> list;
 
-	public static Set<Social> getList() {
+	public static synchronized Set<Social> getList() {
 		if (list == null) {
 			list = new HashSet<Social>();
 			list.addAll(Persistance.getAll(Social.class));

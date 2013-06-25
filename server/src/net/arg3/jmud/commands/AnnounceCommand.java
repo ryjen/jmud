@@ -1,9 +1,9 @@
 package net.arg3.jmud.commands;
 
 import net.arg3.jmud.Argument;
-import net.arg3.jmud.Character;
 import net.arg3.jmud.Server;
 import net.arg3.jmud.World;
+import net.arg3.jmud.model.Character;
 
 public class AnnounceCommand extends Command {
 

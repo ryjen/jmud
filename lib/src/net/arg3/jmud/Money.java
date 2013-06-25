@@ -23,7 +23,7 @@ public class Money implements Comparable<Money>, IFormatible, Cloneable {
 	}
 
 	@Override
-	protected Money clone() throws CloneNotSupportedException {
+	public Money clone() throws CloneNotSupportedException {
 		Money m = (Money) super.clone();
 
 		return m;
@@ -79,6 +79,11 @@ public class Money implements Comparable<Money>, IFormatible, Cloneable {
 		return gold == m.gold && silver == m.silver && copper == m.copper;
 	}
 
+	@Override
+	public int hashCode() {
+		return (int) (gold + silver + copper);
+	}
+	
 	@Column
 	public long getCopper() {
 		return copper;
@@ -145,9 +150,9 @@ public class Money implements Comparable<Money>, IFormatible, Cloneable {
 	protected BigDecimal getTotal() {
 		BigDecimal total = new BigDecimal(getCopper());
 
-		total.add(new BigDecimal(getSilver() * 100));
+		total = total.add(new BigDecimal(getSilver() * 100));
 
-		total.add(new BigDecimal(getGold() * 10000));
+		total = total.add(new BigDecimal(getGold() * 10000));
 
 		return total;
 	}

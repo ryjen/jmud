@@ -696,6 +696,7 @@ public abstract class vt320 extends VDUBuffer implements VDUInput {
 	/**
 	 * main keytyping event handler...
 	 */
+	@Override
 	public void keyPressed(int keyCode, char keyChar, int modifiers) {
 		boolean control = (modifiers & VDUInput.KEY_CONTROL) != 0;
 		boolean shift = (modifiers & VDUInput.KEY_SHIFT) != 0;
@@ -830,6 +831,7 @@ public abstract class vt320 extends VDUBuffer implements VDUInput {
 	 * Handle key Typed events for the terminal, this will get all normal key
 	 * types, but no shift/alt/control/numlock.
 	 */
+	@Override
 	public void keyTyped(int keyCode, char keyChar, int modifiers) {
 		boolean control = (modifiers & VDUInput.KEY_CONTROL) != 0;
 		boolean shift = (modifiers & VDUInput.KEY_SHIFT) != 0;
@@ -1031,6 +1033,7 @@ public abstract class vt320 extends VDUBuffer implements VDUInput {
 	 * @param y
 	 * @param modifiers
 	 */
+	@Override
 	public void mousePressed(int x, int y, int modifiers) {
 		if (mouserpt == 0)
 			return;
@@ -1071,6 +1074,7 @@ public abstract class vt320 extends VDUBuffer implements VDUInput {
 	 * @param y
 	 * @param modifiers
 	 */
+	@Override
 	public void mouseReleased(int x, int y, int modifiers) {
 		if (mouserpt == 0)
 			return;
@@ -1161,6 +1165,7 @@ public abstract class vt320 extends VDUBuffer implements VDUInput {
 	 * @param codes
 	 *            a properties object containing key code definitions
 	 */
+	@Override
 	public void setKeyCodes(Properties codes) {
 		String res, prefixes[] = { "", "S", "C", "A" };
 		int i;
@@ -1243,6 +1248,7 @@ public abstract class vt320 extends VDUBuffer implements VDUInput {
 		localecho = echo;
 	}
 
+	@Override
 	public void setScreenSize(int c, int r, boolean broadcast) {
 		int oldrows = getRows();// , oldcols = getColumns();
 
@@ -1314,6 +1320,7 @@ public abstract class vt320 extends VDUBuffer implements VDUInput {
 	 * @param b
 	 *            the array of bytes to be sent
 	 */
+	@Override
 	public abstract void write(byte[] b);
 
 	private void _SetCursor(int row, int col) {
@@ -1534,7 +1541,7 @@ public abstract class vt320 extends VDUBuffer implements VDUInput {
 							break;
 						case '<': // 'user preferred' is currently 'ISO Latin-1
 							// suppl
-							c = (char) (((int) c & 0x7f) | 0x80);
+							c = (char) ((c & 0x7f) | 0x80);
 							mapped = true;
 							break;
 						case 'A':
@@ -1887,7 +1894,7 @@ public abstract class vt320 extends VDUBuffer implements VDUInput {
 			case '7':
 			case '8':
 			case '9':
-				DCEvars[DCEvar] = DCEvars[DCEvar] * 10 + ((int) c) - 48;
+				DCEvars[DCEvar] = DCEvars[DCEvar] * 10 + (c) - 48;
 				term_state = TSTATE_DCEQ;
 				break;
 			case ';':
@@ -2047,7 +2054,7 @@ public abstract class vt320 extends VDUBuffer implements VDUInput {
 				switch (DCEvars[0]) {
 				case 15:
 					/* printer? no printer. */
-					write(((char) ESC) + "[?13n", false);
+					write((ESC) + "[?13n", false);
 					log.info("ESC[5n");
 					break;
 				default:
@@ -2106,7 +2113,7 @@ public abstract class vt320 extends VDUBuffer implements VDUInput {
 			case '7':
 			case '8':
 			case '9':
-				DCEvars[DCEvar] = DCEvars[DCEvar] * 10 + ((int) c) - 48;
+				DCEvars[DCEvar] = DCEvars[DCEvar] * 10 + (c) - 48;
 				term_state = TSTATE_CSI_EQUAL;
 				break;
 			case ';':
@@ -2199,7 +2206,7 @@ public abstract class vt320 extends VDUBuffer implements VDUInput {
 			case '7':
 			case '8':
 			case '9':
-				DCEvars[DCEvar] = DCEvars[DCEvar] * 10 + ((int) c) - 48;
+				DCEvars[DCEvar] = DCEvars[DCEvar] * 10 + (c) - 48;
 				term_state = TSTATE_CSI;
 				break;
 			case ';':
@@ -2217,7 +2224,7 @@ public abstract class vt320 extends VDUBuffer implements VDUInput {
 					subcode = "62;";
 				if (terminalID.equals("vt100"))
 					subcode = "61;";
-				write(((char) ESC) + "[?" + subcode + "1;2c", false);
+				write((ESC) + "[?" + subcode + "1;2c", false);
 				log.debug("ESC [ " + DCEvars[0] + " c");
 				break;
 			case 'q':
@@ -2489,7 +2496,7 @@ public abstract class vt320 extends VDUBuffer implements VDUInput {
 			case 'n':
 				switch (DCEvars[0]) {
 				case 5: /* malfunction? No malfunction. */
-					writeSpecial(((char) ESC) + "[0n");
+					writeSpecial((ESC) + "[0n");
 					log.debug("ESC[5n");
 					break;
 				case 6:
@@ -2497,7 +2504,7 @@ public abstract class vt320 extends VDUBuffer implements VDUInput {
 					// /usr/X11R6/bin/resize
 					// FIXME check again.
 					// FIXME: but vttest thinks different???
-					writeSpecial(((char) ESC) + "[" + R + ";" + C + "R");
+					writeSpecial((ESC) + "[" + R + ";" + C + "R");
 					log.debug("ESC[6n");
 					break;
 				default:

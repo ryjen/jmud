@@ -4,6 +4,8 @@ import net.arg3.jmud.enums.ApplyType;
 import net.arg3.jmud.enums.DamType;
 import net.arg3.jmud.enums.WearLocation;
 import net.arg3.jmud.interfaces.ITickable;
+import net.arg3.jmud.model.Affect;
+import net.arg3.jmud.model.Character;
 import net.arg3.jmud.objects.WeaponObject;
 
 public class Fight implements ITickable {

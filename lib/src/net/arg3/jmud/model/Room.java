@@ -4,11 +4,13 @@
  * Package: net.arg3.jmud.server
  * Author: Ryan Jennings <c0der78@gmail.com>
  */
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,6 +35,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import net.arg3.jmud.Flag;
+import net.arg3.jmud.Format;
+import net.arg3.jmud.Jmud;
+import net.arg3.jmud.Persistance;
 import net.arg3.jmud.annotations.FlagValue;
 import net.arg3.jmud.enums.Direction;
 import net.arg3.jmud.enums.Sector;
@@ -91,20 +97,20 @@ public class Room implements IDataObject<Long>, IFormatible, IEnvironmental {
 	private Map<Direction, Exit> exits;
 	private Map<String, String> extraDescr;
 	private Flag flags;
-	private final Set<Character> characters;
-	private final Set<Object> objects;
+	private final ArrayList<Character> characters;
+	private final ArrayList<AbstractObject> objects;
 	private Sector sector;
 	private Reset reset;
 	private int level;
-	private Set<Affect> affects;
+	private ArrayList<Affect> affects;
 
 	public Room() {
 		// characters = Collections.synchronizedSet(new HashSet<Character>());
 		// objects = Collections.synchronizedSet(new HashSet<Object>());
-		characters = new HashSet<Character>();
-		objects = new HashSet<Object>();
+		characters = new ArrayList<Character>();
+		objects = new ArrayList<AbstractObject>();
 		exits = new HashMap<Direction, Exit>();
-		affects = new HashSet<Affect>();
+		affects = new ArrayList<Affect>();
 		flags = new Flag();
 		extraDescr = new HashMap<String, String>();
 	}
@@ -136,7 +142,7 @@ public class Room implements IDataObject<Long>, IFormatible, IEnvironmental {
 			return false;
 		}
 		Room other = (Room) obj;
-		if (getId() != other.getId()) {
+		if (getId().equals(other.getId())) {
 			return false;
 		}
 		return true;
@@ -175,8 +181,8 @@ public class Room implements IDataObject<Long>, IFormatible, IEnvironmental {
 	}
 
 	@Transient
-	public Set<Character> getCharacters() {
-		return characters;
+	public List<Character> getCharacters() {
+		return Collections.unmodifiableList(characters);
 	}
 
 	/**
@@ -243,8 +249,8 @@ public class Room implements IDataObject<Long>, IFormatible, IEnvironmental {
 		return name;
 	}
 
-	public Object getObj(String argument) {
-		for (Object obj : getObjects()) {
+	public AbstractObject getObj(String argument) {
+		for (AbstractObject obj : getObjects()) {
 			if (Jmud.isName(obj.getName(), argument))
 				return obj;
 		}
@@ -252,10 +258,10 @@ public class Room implements IDataObject<Long>, IFormatible, IEnvironmental {
 	}
 
 	@Transient
-	public Set<Object> getObjects() {
-		return objects;
+	public List<AbstractObject> getObjects() {
+		return Collections.unmodifiableList(objects);
 	}
-
+	
 	@ManyToOne(targetEntity = Reset.class, fetch = FetchType.EAGER, optional = true)
 	@JoinColumn(name = "reset_id")
 	public Reset getResetScript() {
@@ -364,11 +370,11 @@ public class Room implements IDataObject<Long>, IFormatible, IEnvironmental {
 
 	@ManyToMany(targetEntity = Affect.class)
 	@JoinTable(name = "room_affect", joinColumns = @JoinColumn(name = "room_id"), inverseJoinColumns = @JoinColumn(name = "affect_id"))
-	public Set<Affect> getAffects() {
-		return Collections.unmodifiableSet(affects);
+	public List<Affect> getAffects() {
+		return Collections.unmodifiableList(affects);
 	}
 
-	protected void setAffects(Set<Affect> value) {
+	protected void setAffects(ArrayList<Affect> value) {
 		affects = value;
 	}
 

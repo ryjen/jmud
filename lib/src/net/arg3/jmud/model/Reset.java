@@ -1,4 +1,4 @@
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import net.arg3.jmud.Jmud;
+import net.arg3.jmud.Persistance;
 import net.arg3.jmud.interfaces.IDataObject;
 
 import org.hibernate.Session;
@@ -140,14 +142,14 @@ public class Reset implements IDataObject<Long> {
 				Session s = Persistance.getSession();
 				Transaction tx = s.beginTransaction();
 
-				Object equipObj;
+				AbstractObject equipObj;
 
 				try {
-					equipObj = Jmud.find(Object.getList(), objId).clone();
+					equipObj = Jmud.find(AbstractObject.getList(), objId).clone();
 				} catch (Exception e) {
 					log.error("Object not cloneable! " + objId);
 
-					equipObj = (Object) s.load(Object.class, objId);
+					equipObj = (AbstractObject) s.load(AbstractObject.class, objId);
 
 					return 0;
 				}
@@ -205,7 +207,7 @@ public class Reset implements IDataObject<Long> {
 				long objId = (long) getParam(2).getNumber();
 				int count = 0;
 
-				for (Object obj : lastNpc.getCarrying()) {
+				for (AbstractObject obj : lastNpc.getCarrying()) {
 					if (obj.getId() == objId)
 						count++;
 				}
@@ -219,13 +221,13 @@ public class Reset implements IDataObject<Long> {
 				Session s = Persistance.getSession();
 				Transaction tx = s.beginTransaction();
 
-				Object giveObj;
+				AbstractObject giveObj;
 
 				try {
-					giveObj = Jmud.find(Object.getList(), objId).clone();
+					giveObj = Jmud.find(AbstractObject.getList(), objId).clone();
 				} catch (Exception ex) {
 					log.error("object not cloneable! " + objId);
-					giveObj = (Object) s.load(Object.class, objId);
+					giveObj = (AbstractObject) s.load(AbstractObject.class, objId);
 					return 0;
 				}
 				if (giveObj == null)
@@ -284,7 +286,7 @@ public class Reset implements IDataObject<Long> {
 				NonPlayer lastNpc;
 
 				try {
-					lastNpc = (NonPlayer) Jmud.find(NonPlayer.getList(), npcId)
+					lastNpc = (NonPlayer) Jmud.find(Character.getList(), npcId)
 							.clone();
 				} catch (Exception ex) {
 					lastNpc = (NonPlayer) s.load(NonPlayer.class, npcId);
@@ -333,7 +335,7 @@ public class Reset implements IDataObject<Long> {
 				long objId = (long) getParam(2).getNumber();
 				int count = 0;
 
-				for (Object obj : getRoom().getObjects()) {
+				for (AbstractObject obj : getRoom().getObjects()) {
 					if (obj.getId() == objId)
 						count++;
 				}
@@ -345,13 +347,13 @@ public class Reset implements IDataObject<Long> {
 				Session s = Persistance.getSession();
 				Transaction tx = s.beginTransaction();
 
-				Object lastObj;// = (Object) s.load(Object.class, objId);
+				AbstractObject lastObj;// = (Object) s.load(Object.class, objId);
 
 				try {
-					lastObj = Jmud.find(Object.getList(), objId).clone();
+					lastObj = Jmud.find(AbstractObject.getList(), objId).clone();
 				} catch (Exception ex) {
 					log.warn("Object not cloneable! " + objId);
-					lastObj = (Object) s.load(Object.class, objId);
+					lastObj = (AbstractObject) s.load(AbstractObject.class, objId);
 					return 0;
 				}
 				if (lastObj == null) {
@@ -393,7 +395,7 @@ public class Reset implements IDataObject<Long> {
 					return 0;
 				}
 
-				Object lastObj = (Object) temp;
+				AbstractObject lastObj = (AbstractObject) temp;
 
 				if (L.getTop() < 2 || !getParam(2).isNumber()) {
 					log.error("invalid parameter(2) passed on give " + getId());
@@ -407,7 +409,7 @@ public class Reset implements IDataObject<Long> {
 				long objId = (long) getParam(2).getNumber();
 				int count = 0;
 
-				for (Object obj : lastObj.getContents()) {
+				for (AbstractObject obj : lastObj.getContents()) {
 					if (obj.getId() == objId)
 						count++;
 				}
@@ -419,13 +421,13 @@ public class Reset implements IDataObject<Long> {
 				Session s = Persistance.getSession();
 				Transaction tx = s.beginTransaction();
 
-				Object putObj; // = (Object) s.load(Object.class, objId);
+				AbstractObject putObj; // = (Object) s.load(Object.class, objId);
 
 				try {
-					putObj = Jmud.find(Object.getList(), objId).clone();
+					putObj = Jmud.find(AbstractObject.getList(), objId).clone();
 				} catch (Exception ex) {
 					log.warn("object not cloneable! " + objId);
-					putObj = (Object) s.load(Object.class, objId);
+					putObj = (AbstractObject) s.load(AbstractObject.class, objId);
 					return 0;
 				}
 				if (putObj == null) {

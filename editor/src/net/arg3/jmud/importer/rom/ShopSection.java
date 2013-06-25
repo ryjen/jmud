@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.arg3.jmud.NonPlayer;
 import net.arg3.jmud.Persistance;
-import net.arg3.jmud.Shop;
 import net.arg3.jmud.importer.FileReader;
 import net.arg3.jmud.importer.ImportException;
+import net.arg3.jmud.model.NonPlayer;
+import net.arg3.jmud.model.Shop;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

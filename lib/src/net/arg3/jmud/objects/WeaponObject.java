@@ -5,14 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 import net.arg3.jmud.Attack;
-import net.arg3.jmud.Object;
 import net.arg3.jmud.annotations.FlagValue;
 import net.arg3.jmud.enums.DamType;
 import net.arg3.jmud.enums.WeaponClass;
+import net.arg3.jmud.model.AbstractObject;
 
 @Entity
 @DiscriminatorValue("weapon")
-public class WeaponObject extends Object {
+public class WeaponObject extends AbstractObject {
 
 	@FlagValue
 	public static final int TWO_HANDED = (1 << 0);

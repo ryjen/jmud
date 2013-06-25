@@ -3,8 +3,8 @@ package net.arg3.jmud.affects;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import net.arg3.jmud.Affect;
 import net.arg3.jmud.enums.SpellAffects;
+import net.arg3.jmud.model.Affect;
 
 @Entity
 @DiscriminatorValue("spell")

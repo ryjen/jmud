@@ -38,6 +38,11 @@ import net.arg3.jmud.enums.Position;
 import net.arg3.jmud.enums.Sector;
 import net.arg3.jmud.enums.Sex;
 import net.arg3.jmud.enums.WearLocation;
+import net.arg3.jmud.model.Area;
+import net.arg3.jmud.model.Continent;
+import net.arg3.jmud.model.Help;
+import net.arg3.jmud.model.Race;
+import net.arg3.jmud.model.Room;
 
 import org.hibernate.collection.PersistentSet;
 import org.slf4j.LoggerFactory;

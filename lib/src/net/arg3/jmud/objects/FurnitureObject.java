@@ -7,8 +7,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
-import net.arg3.jmud.Object;
 import net.arg3.jmud.annotations.FlagValue;
+import net.arg3.jmud.model.AbstractObject;
 
 /**
  * @author Ryan
@@ -16,7 +16,7 @@ import net.arg3.jmud.annotations.FlagValue;
  */
 @Entity
 @DiscriminatorValue("furniture")
-public class FurnitureObject extends Object {
+public class FurnitureObject extends AbstractObject {
 
 	private static final long serialVersionUID = 1L;
 

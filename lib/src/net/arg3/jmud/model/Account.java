@@ -1,4 +1,4 @@
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
 // default package
 import java.util.Set;
@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import net.arg3.jmud.Persistance;
 import net.arg3.jmud.interfaces.IDataObject;
 
 import org.hibernate.HibernateException;
@@ -79,7 +80,7 @@ public class Account implements IDataObject<Long> {
 			return false;
 		}
 		Account other = (Account) obj;
-		if (getId() != other.getId()) {
+		if (getId().equals(other.getId())) {
 			return false;
 		}
 		if (getLogin() == null) {

@@ -13,7 +13,7 @@ public class Dice implements Cloneable {
 	int bonus;
 
 	@Override
-	protected Dice clone() throws CloneNotSupportedException {
+	public Dice clone() throws CloneNotSupportedException {
 		return (Dice) super.clone();
 	}
 

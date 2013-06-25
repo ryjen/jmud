@@ -5,10 +5,10 @@
 package net.arg3.jmud.commands;
 
 import net.arg3.jmud.Argument;
-import net.arg3.jmud.Character;
-import net.arg3.jmud.Exit;
-import net.arg3.jmud.Room;
 import net.arg3.jmud.enums.Direction;
+import net.arg3.jmud.model.Character;
+import net.arg3.jmud.model.Exit;
+import net.arg3.jmud.model.Room;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -4,12 +4,14 @@
  * Package: net.arg3.jmud
  * Author: Ryan Jennings <c0der78@gmail.com>
  */
-package net.arg3.jmud;
+package net.arg3.jmud.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,6 +40,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import net.arg3.jmud.Attack;
+import net.arg3.jmud.Attributes;
+import net.arg3.jmud.Flag;
+import net.arg3.jmud.Format;
+import net.arg3.jmud.Jmud;
+import net.arg3.jmud.Money;
+import net.arg3.jmud.Stats;
+import net.arg3.jmud.WearFlags;
 import net.arg3.jmud.enums.Alignment;
 import net.arg3.jmud.enums.DamType;
 import net.arg3.jmud.enums.Ethos;
@@ -181,7 +191,7 @@ public abstract class Character implements IDataObject<Long>, IWritable,
 	private String name;
 	private String description;
 	private Vitals currentVitals;
-	private Set<Object> carrying;
+	private ArrayList<AbstractObject> carrying;
 	private Room room;
 	private Character fighting;
 	private Set<Affect> affects;
@@ -223,7 +233,7 @@ public abstract class Character implements IDataObject<Long>, IWritable,
 	protected Character clone() throws CloneNotSupportedException {
 		Character ch = (Character) super.clone();
 
-		for (Object o : carrying) {
+		for (AbstractObject o : carrying) {
 			ch.carrying.add(o.clone());
 		}
 		ch.currentVitals = currentVitals.clone();
@@ -270,28 +280,28 @@ public abstract class Character implements IDataObject<Long>, IWritable,
 			return false;
 		}
 		Character other = (Character) obj;
-		if (getId() != other.getId()) {
+		if (getId().equals(other.getId())) {
 			return false;
 		}
 		return true;
 	}
 
 	@Transient
-	public Object getEq(WearLocation location) {
-		for (Object obj : getCarrying())
+	public AbstractObject getEq(WearLocation location) {
+		for (AbstractObject obj : getCarrying())
 			if (obj.getWearLocation() == location)
 				return obj;
 
 		return null;
 	}
 
-	public boolean takeOff(Object obj, WearLocation loc, boolean fReplace) {
+	public boolean takeOff(AbstractObject obj, WearLocation loc, boolean fReplace) {
 		if (getEq(loc) == null)
 			return true;
 		if (!fReplace)
 			return false;
 
-		if (obj.getFlags().has(Object.NOREMOVE)) {
+		if (obj.getFlags().has(AbstractObject.NOREMOVE)) {
 			format("You can't remoe {0}.", obj);
 			return false;
 		}
@@ -302,7 +312,7 @@ public abstract class Character implements IDataObject<Long>, IWritable,
 		return true;
 	}
 
-	public void unequip(Object obj) {
+	public void unequip(AbstractObject obj) {
 		if (obj.getWearLocation() == WearLocation.NONE) {
 			log.warn("object not equipped");
 			return;
@@ -320,17 +330,17 @@ public abstract class Character implements IDataObject<Long>, IWritable,
 		}
 	}
 
-	public void equip(Object obj, WearLocation loc) {
+	public void equip(AbstractObject obj, WearLocation loc) {
 		if (getEq(loc) != null) {
 			log.error("character already equiped " + loc);
 			return;
 		}
 
-		if ((obj.getFlags().has(Object.ANTIEVIL) && Alignment
+		if ((obj.getFlags().has(AbstractObject.ANTIEVIL) && Alignment
 				.isEvil(getAlignment()))
-				|| (obj.getFlags().has(Object.ANTIGOOD) && Alignment
+				|| (obj.getFlags().has(AbstractObject.ANTIGOOD) && Alignment
 						.isGood(getAlignment()))
-				|| (obj.getFlags().has(Object.ANTINEUTRAL) && Alignment
+				|| (obj.getFlags().has(AbstractObject.ANTINEUTRAL) && Alignment
 						.isNeutral(getAlignment()))) {
 			format("You are ~?zapped~x by {0} and drop it.", obj);
 			getRoom().format("{0} is ~?zapped~x by {1} and drops it.", this,
@@ -354,7 +364,7 @@ public abstract class Character implements IDataObject<Long>, IWritable,
 		}
 	}
 
-	public void wear(Object obj, boolean fReplace) {
+	public void wear(AbstractObject obj, boolean fReplace) {
 
 		if (!getCarrying().contains(obj))
 			getCarrying().add(obj);
@@ -662,8 +672,8 @@ public abstract class Character implements IDataObject<Long>, IWritable,
 	}
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "carriedBy", targetEntity = Object.class)
-	public Set<Object> getCarrying() {
-		return carrying;
+	public List<AbstractObject> getCarrying() {
+		return Collections.unmodifiableList(carrying);
 	}
 
 	@Transient
@@ -971,7 +981,7 @@ public abstract class Character implements IDataObject<Long>, IWritable,
 		}
 	}
 
-	protected void setCarrying(Set<Object> value) {
+	protected void setCarrying(ArrayList<AbstractObject> value) {
 		carrying = value;
 	}
 

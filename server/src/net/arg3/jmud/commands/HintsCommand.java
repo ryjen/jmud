@@ -9,11 +9,11 @@ package net.arg3.jmud.commands;
 import java.util.Random;
 
 import net.arg3.jmud.Argument;
-import net.arg3.jmud.Character;
-import net.arg3.jmud.Hint;
 import net.arg3.jmud.Persistance;
-import net.arg3.jmud.Player;
 import net.arg3.jmud.World;
+import net.arg3.jmud.model.Character;
+import net.arg3.jmud.model.Hint;
+import net.arg3.jmud.model.Player;
 import net.wimpi.telnetd.io.BasicTerminalIO;
 import net.wimpi.telnetd.io.terminal.ColorHelper;
 

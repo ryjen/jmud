@@ -2,8 +2,8 @@ package net.arg3.jmud.races;
 
 import javax.persistence.Entity;
 
-import net.arg3.jmud.PcRace;
 import net.arg3.jmud.enums.Size;
+import net.arg3.jmud.model.PcRace;
 
 @Entity
 public class HumanRace extends PcRace {

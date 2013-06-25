@@ -838,7 +838,7 @@ public abstract class SshIO {
 		int protocol_flags = 0; /* currently 0 */
 
 		SshPacket1 packet = new SshPacket1(SSH_CMSG_SESSION_KEY);
-		packet.putByte((byte) cipher_types);
+		packet.putByte(cipher_types);
 		packet.putBytes(anti_spoofing_cookie);
 		packet.putBytes(encrypted_session_key);
 		packet.putInt32(protocol_flags);

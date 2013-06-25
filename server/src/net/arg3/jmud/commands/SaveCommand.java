@@ -4,8 +4,8 @@
 package net.arg3.jmud.commands;
 
 import net.arg3.jmud.Argument;
-import net.arg3.jmud.Character;
 import net.arg3.jmud.Persistance;
+import net.arg3.jmud.model.Character;
 
 /**
  * @author Ryan

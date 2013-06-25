@@ -39,7 +39,7 @@ public enum DamType {
 
 	static Map<String, DamType> defaultAttackTypes;
 
-	public static Set<Entry<String, DamType>> getDefaultAttackTypes() {
+	public static synchronized Set<Entry<String, DamType>> getDefaultAttackTypes() {
 		if (defaultAttackTypes == null) {
 			defaultAttackTypes = new HashMap<String, DamType>();
 

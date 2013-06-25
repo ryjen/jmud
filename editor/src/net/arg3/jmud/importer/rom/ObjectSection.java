@@ -4,14 +4,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.arg3.jmud.Affect;
-import net.arg3.jmud.Object;
 import net.arg3.jmud.Persistance;
-import net.arg3.jmud.ScrollPotionPillObject;
-import net.arg3.jmud.WandStaffObject;
 import net.arg3.jmud.enums.DamType;
 import net.arg3.jmud.importer.FileReader;
 import net.arg3.jmud.importer.ImportException;
+import net.arg3.jmud.model.AbstractObject;
+import net.arg3.jmud.model.Affect;
 import net.arg3.jmud.objects.ArmorObject;
 import net.arg3.jmud.objects.ContainerObject;
 import net.arg3.jmud.objects.FoodObject;
@@ -20,6 +18,8 @@ import net.arg3.jmud.objects.LightObject;
 import net.arg3.jmud.objects.LiquidContainerObject;
 import net.arg3.jmud.objects.MoneyObject;
 import net.arg3.jmud.objects.PortalObject;
+import net.arg3.jmud.objects.ScrollPotionPillObject;
+import net.arg3.jmud.objects.WandStaffObject;
 import net.arg3.jmud.objects.WeaponObject;
 
 import org.hibernate.HibernateException;
@@ -28,7 +28,7 @@ import org.hibernate.Transaction;
 
 public class ObjectSection extends AbstractSection {
 	boolean newFormat;
-	public final Map<Integer, Object> Loaded = new HashMap<Integer, Object>();
+	public final Map<Integer, AbstractObject> Loaded = new HashMap<Integer, AbstractObject>();
 
 	public ObjectSection(RomImporter importer) {
 		super(importer);
@@ -40,7 +40,7 @@ public class ObjectSection extends AbstractSection {
 		Session s = Persistance.getSession();
 		Transaction tx = s.beginTransaction();
 
-		for (Map.Entry<Integer, Object> entry : Loaded.entrySet()) {
+		for (Map.Entry<Integer, AbstractObject> entry : Loaded.entrySet()) {
 
 			for (Affect paf : entry.getValue().getAffects())
 				s.saveOrUpdate(paf);
@@ -92,7 +92,7 @@ public class ObjectSection extends AbstractSection {
 
 			reader.readString(); // material
 
-			Object obj = RomConverter.createObjectType(reader.readWord());
+			AbstractObject obj = RomConverter.createObjectType(reader.readWord());
 
 			obj.setArea(AreaSection.getCurrentArea());
 
@@ -307,7 +307,7 @@ public class ObjectSection extends AbstractSection {
 			String longDescr = reader.readString();
 			reader.readString();
 
-			Object obj = RomConverter.createObjectType(reader.readNumber());
+			AbstractObject obj = RomConverter.createObjectType(reader.readNumber());
 
 			obj.setName(name);
 			obj.setShortDescr(shortDescr);
