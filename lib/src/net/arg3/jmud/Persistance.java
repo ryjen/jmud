@@ -18,14 +18,13 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 
 import org.hibernate.Criteria;
-import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.context.ManagedSessionContext;
+import org.hibernate.context.internal.ManagedSessionContext;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.metadata.ClassMetadata;
 import org.slf4j.Logger;
@@ -39,7 +38,7 @@ public class Persistance {
 
 	static Logger log = LoggerFactory.getLogger(Persistance.class);
 	private static SessionFactory sessionFactory = null;
-	private static org.hibernate.classic.Session session = null;
+	private static Session session = null;
 
 	public static int count(Class<?> type) {
 		int count = -1;
@@ -147,7 +146,7 @@ public class Persistance {
 			String column) {
 		ClassMetadata md = sessionFactory.getClassMetadata(obj.getClass());
 
-		return md.getPropertyValue(obj, column, EntityMode.POJO);
+		return md.getPropertyValue(obj, column);
 	}
 
 	public static String getIdentifier(Class<?> type) {
@@ -310,6 +309,6 @@ public class Persistance {
 
 		ClassMetadata md = sessionFactory.getClassMetadata(obj.getClass());
 
-		md.setPropertyValue(obj, column, value, EntityMode.POJO);
+		md.setPropertyValue(obj, column, value);
 	}
 }

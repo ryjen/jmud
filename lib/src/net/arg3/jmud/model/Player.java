@@ -39,7 +39,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.event.PostLoadEvent;
+import org.hibernate.event.spi.PostLoadEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

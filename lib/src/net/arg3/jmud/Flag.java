@@ -12,6 +12,7 @@ import net.arg3.jmud.interfaces.IFlaggable;
 import net.arg3.jmud.interfaces.IFormatible;
 
 import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.usertype.UserType;
 
@@ -82,9 +83,9 @@ public class Flag implements IFlaggable<Long>, UserType, IFormatible, Cloneable 
 	}
 
 	@Override
-	public java.lang.Object nullSafeGet(ResultSet arg0, String[] arg1,
+	public java.lang.Object nullSafeGet(ResultSet arg0, String[] arg1, SessionImplementor session,
 			java.lang.Object arg2) throws HibernateException, SQLException {
-		Long value = StandardBasicTypes.LONG.nullSafeGet(arg0, arg1[0]);
+		Long value = StandardBasicTypes.LONG.nullSafeGet(arg0, arg1[0], session);
 		if (value == null)
 			return null;
 
@@ -93,10 +94,10 @@ public class Flag implements IFlaggable<Long>, UserType, IFormatible, Cloneable 
 
 	@Override
 	public void nullSafeSet(PreparedStatement arg0, java.lang.Object arg1,
-			int arg2) throws HibernateException, SQLException {
+			int arg2, SessionImplementor session) throws HibernateException, SQLException {
 		if (arg1 != null) {
 			StandardBasicTypes.LONG.nullSafeSet(arg0, ((Flag) arg1).getValue(),
-					arg2);
+					arg2, session);
 		}
 	}
 

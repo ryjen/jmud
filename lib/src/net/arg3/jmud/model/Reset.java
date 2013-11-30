@@ -10,16 +10,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import net.arg3.jmud.Jmud;
-import net.arg3.jmud.Persistance;
 import net.arg3.jmud.interfaces.IDataObject;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.keplerproject.luajava.JavaFunction;
-import org.keplerproject.luajava.LuaException;
-import org.keplerproject.luajava.LuaState;
-import org.keplerproject.luajava.LuaStateFactory;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,15 +38,20 @@ public class Reset implements IDataObject<Long> {
 	public void execute() {
 
 		try {
-			LuaState state = LuaStateFactory.newLuaState();
+			Context state = Context.enter();
 
 			addCommands(state);
 
-			state.LdoString(getCode());
+			Scriptable scope = state.initStandardObjects();
+			
+			state.evaluateString(scope, getCode(), String.valueOf(id), 0, null);
 
-			state.close();
-		} catch (LuaException ex) {
+		} catch (Exception ex) {
 			log.error("could not reset " + getId(), ex);
+		}
+		finally
+		{
+			Context.exit();
 		}
 	}
 
@@ -94,357 +93,358 @@ public class Reset implements IDataObject<Long> {
 				.getName() + "]";
 	}
 
-	private void addCommands(LuaState state) throws LuaException {
-		addNpcCommand(state);
+	private void addCommands(Context state) {
+		/*addNpcCommand(state);
 		addObjCommand(state);
 		addGiveCommand(state);
 		addEquipCommand(state);
-		addPutCommand(state);
+		addPutCommand(state);*/
 	}
-
-	private void addEquipCommand(LuaState state) throws LuaException {
-		state.pushJavaFunction(new JavaFunction(state) {
-
-			@Override
-			public int execute() throws LuaException {
-
-				// WearLocation loc = WearLocation.NONE;
-
-				L.getGlobal("lastNpc");
-
-				java.lang.Object temp = L.toJavaObject(-1);
-
-				if (!(temp instanceof NonPlayer)) {
-					// log.error("equip reset " + getId() + " has no last npc");
-					return 0;
-				}
-
-				NonPlayer lastNpc = (NonPlayer) temp;
-
-				if (!getParam(2).isNumber()) {
-					log.error("invalid parameter(2) passed on equip " + getId());
-					return 0;
-				}
-
-				// loc = WearLocation.lookup(getParam(3).getString());
-
-				long objId = (long) getParam(2).getNumber();
-
-				/*
-				 * for (Object obj : lastNpc.getCarrying()) { if
-				 * (obj.getWearLocation() == loc) { log.error("equip reset " +
-				 * getId() + " npc already equipped"); return 0; } }
-				 */
-
-				log.debug("loading obj " + objId + " from equip reset "
-						+ getId());
-
-				Session s = Persistance.getSession();
-				Transaction tx = s.beginTransaction();
-
-				AbstractObject equipObj;
-
-				try {
-					equipObj = Jmud.find(AbstractObject.getList(), objId).clone();
-				} catch (Exception e) {
-					log.error("Object not cloneable! " + objId);
-
-					equipObj = (AbstractObject) s.load(AbstractObject.class, objId);
-
-					return 0;
-				}
-
-				if (equipObj == null) {
-					log.error("equip reset " + getId() + " no such object "
-							+ objId);
-					return 0;
-				}
-
-				lastNpc.wear(equipObj, false);
-
-				L.pushJavaObject(equipObj);
-
-				L.setGlobal("lastObj");
-
-				tx.commit();
-
-				return 1;
-			}
-
-		});
-
-		state.setGlobal("equip");
-	}
-
-	private void addGiveCommand(LuaState state) throws LuaException {
-		state.pushJavaFunction(new JavaFunction(state) {
-
-			@Override
-			public int execute() throws LuaException {
-
-				int max = 1;
-
-				L.getGlobal("lastNpc");
-
-				java.lang.Object temp = L.toJavaObject(-1);
-
-				if (!(temp instanceof NonPlayer)) {
-					// log.error("give reset " + getId() + " has no last npc");
-					return 0;
-				}
-
-				NonPlayer lastNpc = (NonPlayer) temp;
-
-				if (L.getTop() < 2 || !getParam(2).isNumber()) {
-					log.error("invalid parameter(2) passed on give " + getId());
-					return 0;
-				}
-
-				if (L.getTop() > 2 && getParam(3).isNumber()) {
-					max = (int) getParam(3).getNumber();
-				}
-
-				long objId = (long) getParam(2).getNumber();
-				int count = 0;
-
-				for (AbstractObject obj : lastNpc.getCarrying()) {
-					if (obj.getId() == objId)
-						count++;
-				}
-
-				if (count >= max)
-					return 0;
-
-				log.debug("loading object " + objId + " from give reset "
-						+ getId());
-
-				Session s = Persistance.getSession();
-				Transaction tx = s.beginTransaction();
-
-				AbstractObject giveObj;
-
-				try {
-					giveObj = Jmud.find(AbstractObject.getList(), objId).clone();
-				} catch (Exception ex) {
-					log.error("object not cloneable! " + objId);
-					giveObj = (AbstractObject) s.load(AbstractObject.class, objId);
-					return 0;
-				}
-				if (giveObj == null)
-					return 0;
-
-				lastNpc.getCarrying().add(giveObj);
-
-				L.pushJavaObject(giveObj);
-
-				L.setGlobal("lastObj");
-
-				tx.commit();
-
-				return 1;
-			}
-
-		});
-
-		state.setGlobal("give");
-	}
-
-	private void addNpcCommand(LuaState state) throws LuaException {
-		state.pushJavaFunction(new JavaFunction(state) {
-			/**
-			 * Example for loadLib. Prints the time and the first parameter, if
-			 * any.
-			 */
-			@Override
-			public int execute() throws LuaException {
-				int max = 1;
-
-				if (L.getTop() < 2 || !getParam(2).isNumber()) {
-					log.error("invalid parameter(2) passed on npc reset "
-							+ getId());
-					return 0;
-				}
-
-				if (L.getTop() > 2 && getParam(3).isNumber()) {
-					max = (int) getParam(3).getNumber();
-				}
-
-				long npcId = (long) getParam(2).getNumber();
-				int count = 0;
-
-				for (Character ch : getRoom().getCharacters()) {
-					if (ch.getId() == npcId)
-						count++;
-				}
-
-				if (count >= max)
-					return 0;
-
-				log.debug("Loading npc " + npcId + " from reset " + getId());
-				org.hibernate.Session s = Persistance.getSession();
-				Transaction tx = s.beginTransaction();
-				NonPlayer lastNpc;
-
-				try {
-					lastNpc = (NonPlayer) Jmud.find(Character.getList(), npcId)
-							.clone();
-				} catch (Exception ex) {
-					lastNpc = (NonPlayer) s.load(NonPlayer.class, npcId);
-					log.error("NPC not cloneable! " + npcId);
-					return 0;
-				}
-				if (lastNpc == null) {
-					log.error("invalid npc id " + npcId + "for reset "
-							+ getId());
-					return 0;
-				}
-
-				lastNpc.setRoom(getRoom());
-
-				L.pushJavaObject(lastNpc);
-
-				L.setGlobal("lastNpc");
-
-				tx.commit();
-
-				return 1;
-			}
-		});
-
-		state.setGlobal("npc");
-	}
-
-	private void addObjCommand(LuaState state) throws LuaException {
-		state.pushJavaFunction(new JavaFunction(state) {
-
-			@Override
-			public int execute() throws LuaException {
-
-				int max = 1;
-
-				if (L.getTop() < 2 || !getParam(2).isNumber()) {
-					log.error("invalid parameter(2) passed on obj reset "
-							+ getId());
-					return 0;
-				}
-
-				if (L.getTop() > 2 && getParam(3).isNumber()) {
-					max = (int) getParam(3).getNumber();
-				}
-
-				long objId = (long) getParam(2).getNumber();
-				int count = 0;
-
-				for (AbstractObject obj : getRoom().getObjects()) {
-					if (obj.getId() == objId)
-						count++;
-				}
-
-				if (count >= max)
-					return 0;
-
-				log.debug("loading object " + objId + " from reset " + getId());
-				Session s = Persistance.getSession();
-				Transaction tx = s.beginTransaction();
-
-				AbstractObject lastObj;// = (Object) s.load(Object.class, objId);
-
-				try {
-					lastObj = Jmud.find(AbstractObject.getList(), objId).clone();
-				} catch (Exception ex) {
-					log.warn("Object not cloneable! " + objId);
-					lastObj = (AbstractObject) s.load(AbstractObject.class, objId);
-					return 0;
-				}
-				if (lastObj == null) {
-					log.error("invalid obj id " + objId + " on reset "
-							+ getId());
-					return 0;
-				}
-
-				lastObj.setRoom(getRoom());
-
-				L.pushJavaObject(lastObj);
-				L.setGlobal("lastObj");
-
-				tx.commit();
-
-				return 1;
-			}
-
-		});
-
-		state.setGlobal("obj");
-
-	}
-
-	private void addPutCommand(LuaState state) throws LuaException {
-		state.pushJavaFunction(new JavaFunction(state) {
-
-			@Override
-			public int execute() throws LuaException {
-
-				int max = 0;
-
-				L.getGlobal("lastObj");
-
-				java.lang.Object temp = L.toJavaObject(-1);
-
-				if (!(temp instanceof Object)) {
-					// log.error("put reset " + getId() + " has no last obj");
-					return 0;
-				}
-
-				AbstractObject lastObj = (AbstractObject) temp;
-
-				if (L.getTop() < 2 || !getParam(2).isNumber()) {
-					log.error("invalid parameter(2) passed on give " + getId());
-					return 0;
-				}
-
-				if (L.getTop() > 2 && getParam(3).isNumber()) {
-					max = (int) getParam(3).getNumber();
-				}
-
-				long objId = (long) getParam(2).getNumber();
-				int count = 0;
-
-				for (AbstractObject obj : lastObj.getContents()) {
-					if (obj.getId() == objId)
-						count++;
-				}
-
-				if (count >= max)
-					return 0;
-
-				log.debug("loading obj " + objId + " from reset " + getId());
-				Session s = Persistance.getSession();
-				Transaction tx = s.beginTransaction();
-
-				AbstractObject putObj; // = (Object) s.load(Object.class, objId);
-
-				try {
-					putObj = Jmud.find(AbstractObject.getList(), objId).clone();
-				} catch (Exception ex) {
-					log.warn("object not cloneable! " + objId);
-					putObj = (AbstractObject) s.load(AbstractObject.class, objId);
-					return 0;
-				}
-				if (putObj == null) {
-					log.error("put reset " + getId() + " no such object "
-							+ objId);
-					return 0;
-				}
-
-				lastObj.getContents().add(putObj);
-
-				tx.commit();
-
-				return 1;
-			}
-
-		});
-
-		state.setGlobal("put");
-	}
+//
+//	private void addEquipCommand(Context state) {
+//		
+//		state.pushJavaFunction(new JavaFunction(state) {
+//
+//			@Override
+//			public int execute() throws LuaException {
+//
+//				// WearLocation loc = WearLocation.NONE;
+//
+//				L.getGlobal("lastNpc");
+//
+//				java.lang.Object temp = L.toJavaObject(-1);
+//
+//				if (!(temp instanceof NonPlayer)) {
+//					// log.error("equip reset " + getId() + " has no last npc");
+//					return 0;
+//				}
+//
+//				NonPlayer lastNpc = (NonPlayer) temp;
+//
+//				if (!getParam(2).isNumber()) {
+//					log.error("invalid parameter(2) passed on equip " + getId());
+//					return 0;
+//				}
+//
+//				// loc = WearLocation.lookup(getParam(3).getString());
+//
+//				long objId = (long) getParam(2).getNumber();
+//
+//				/*
+//				 * for (Object obj : lastNpc.getCarrying()) { if
+//				 * (obj.getWearLocation() == loc) { log.error("equip reset " +
+//				 * getId() + " npc already equipped"); return 0; } }
+//				 */
+//
+//				log.debug("loading obj " + objId + " from equip reset "
+//						+ getId());
+//
+//				Session s = Persistance.getSession();
+//				Transaction tx = s.beginTransaction();
+//
+//				AbstractObject equipObj;
+//
+//				try {
+//					equipObj = Jmud.find(AbstractObject.getList(), objId).clone();
+//				} catch (Exception e) {
+//					log.error("Object not cloneable! " + objId);
+//
+//					equipObj = (AbstractObject) s.load(AbstractObject.class, objId);
+//
+//					return 0;
+//				}
+//
+//				if (equipObj == null) {
+//					log.error("equip reset " + getId() + " no such object "
+//							+ objId);
+//					return 0;
+//				}
+//
+//				lastNpc.wear(equipObj, false);
+//
+//				L.pushJavaObject(equipObj);
+//
+//				L.setGlobal("lastObj");
+//
+//				tx.commit();
+//
+//				return 1;
+//			}
+//
+//		});
+//
+//		state.setGlobal("equip");
+//	}
+//
+//	private void addGiveCommand(LuaState state) throws LuaException {
+//		state.pushJavaFunction(new JavaFunction(state) {
+//
+//			@Override
+//			public int execute() throws LuaException {
+//
+//				int max = 1;
+//
+//				L.getGlobal("lastNpc");
+//
+//				java.lang.Object temp = L.toJavaObject(-1);
+//
+//				if (!(temp instanceof NonPlayer)) {
+//					// log.error("give reset " + getId() + " has no last npc");
+//					return 0;
+//				}
+//
+//				NonPlayer lastNpc = (NonPlayer) temp;
+//
+//				if (L.getTop() < 2 || !getParam(2).isNumber()) {
+//					log.error("invalid parameter(2) passed on give " + getId());
+//					return 0;
+//				}
+//
+//				if (L.getTop() > 2 && getParam(3).isNumber()) {
+//					max = (int) getParam(3).getNumber();
+//				}
+//
+//				long objId = (long) getParam(2).getNumber();
+//				int count = 0;
+//
+//				for (AbstractObject obj : lastNpc.getCarrying()) {
+//					if (obj.getId() == objId)
+//						count++;
+//				}
+//
+//				if (count >= max)
+//					return 0;
+//
+//				log.debug("loading object " + objId + " from give reset "
+//						+ getId());
+//
+//				Session s = Persistance.getSession();
+//				Transaction tx = s.beginTransaction();
+//
+//				AbstractObject giveObj;
+//
+//				try {
+//					giveObj = Jmud.find(AbstractObject.getList(), objId).clone();
+//				} catch (Exception ex) {
+//					log.error("object not cloneable! " + objId);
+//					giveObj = (AbstractObject) s.load(AbstractObject.class, objId);
+//					return 0;
+//				}
+//				if (giveObj == null)
+//					return 0;
+//
+//				lastNpc.getCarrying().add(giveObj);
+//
+//				L.pushJavaObject(giveObj);
+//
+//				L.setGlobal("lastObj");
+//
+//				tx.commit();
+//
+//				return 1;
+//			}
+//
+//		});
+//
+//		state.setGlobal("give");
+//	}
+//
+//	private void addNpcCommand(LuaState state) throws LuaException {
+//		state.pushJavaFunction(new JavaFunction(state) {
+//			/**
+//			 * Example for loadLib. Prints the time and the first parameter, if
+//			 * any.
+//			 */
+//			@Override
+//			public int execute() throws LuaException {
+//				int max = 1;
+//
+//				if (L.getTop() < 2 || !getParam(2).isNumber()) {
+//					log.error("invalid parameter(2) passed on npc reset "
+//							+ getId());
+//					return 0;
+//				}
+//
+//				if (L.getTop() > 2 && getParam(3).isNumber()) {
+//					max = (int) getParam(3).getNumber();
+//				}
+//
+//				long npcId = (long) getParam(2).getNumber();
+//				int count = 0;
+//
+//				for (Character ch : getRoom().getCharacters()) {
+//					if (ch.getId() == npcId)
+//						count++;
+//				}
+//
+//				if (count >= max)
+//					return 0;
+//
+//				log.debug("Loading npc " + npcId + " from reset " + getId());
+//				org.hibernate.Session s = Persistance.getSession();
+//				Transaction tx = s.beginTransaction();
+//				NonPlayer lastNpc;
+//
+//				try {
+//					lastNpc = (NonPlayer) Jmud.find(Character.getList(), npcId)
+//							.clone();
+//				} catch (Exception ex) {
+//					lastNpc = (NonPlayer) s.load(NonPlayer.class, npcId);
+//					log.error("NPC not cloneable! " + npcId);
+//					return 0;
+//				}
+//				if (lastNpc == null) {
+//					log.error("invalid npc id " + npcId + "for reset "
+//							+ getId());
+//					return 0;
+//				}
+//
+//				lastNpc.setRoom(getRoom());
+//
+//				L.pushJavaObject(lastNpc);
+//
+//				L.setGlobal("lastNpc");
+//
+//				tx.commit();
+//
+//				return 1;
+//			}
+//		});
+//
+//		state.setGlobal("npc");
+//	}
+//
+//	private void addObjCommand(LuaState state) throws LuaException {
+//		state.pushJavaFunction(new JavaFunction(state) {
+//
+//			@Override
+//			public int execute() throws LuaException {
+//
+//				int max = 1;
+//
+//				if (L.getTop() < 2 || !getParam(2).isNumber()) {
+//					log.error("invalid parameter(2) passed on obj reset "
+//							+ getId());
+//					return 0;
+//				}
+//
+//				if (L.getTop() > 2 && getParam(3).isNumber()) {
+//					max = (int) getParam(3).getNumber();
+//				}
+//
+//				long objId = (long) getParam(2).getNumber();
+//				int count = 0;
+//
+//				for (AbstractObject obj : getRoom().getObjects()) {
+//					if (obj.getId() == objId)
+//						count++;
+//				}
+//
+//				if (count >= max)
+//					return 0;
+//
+//				log.debug("loading object " + objId + " from reset " + getId());
+//				Session s = Persistance.getSession();
+//				Transaction tx = s.beginTransaction();
+//
+//				AbstractObject lastObj;// = (Object) s.load(Object.class, objId);
+//
+//				try {
+//					lastObj = Jmud.find(AbstractObject.getList(), objId).clone();
+//				} catch (Exception ex) {
+//					log.warn("Object not cloneable! " + objId);
+//					lastObj = (AbstractObject) s.load(AbstractObject.class, objId);
+//					return 0;
+//				}
+//				if (lastObj == null) {
+//					log.error("invalid obj id " + objId + " on reset "
+//							+ getId());
+//					return 0;
+//				}
+//
+//				lastObj.setRoom(getRoom());
+//
+//				L.pushJavaObject(lastObj);
+//				L.setGlobal("lastObj");
+//
+//				tx.commit();
+//
+//				return 1;
+//			}
+//
+//		});
+//
+//		state.setGlobal("obj");
+//
+//	}
+//
+//	private void addPutCommand(LuaState state) throws LuaException {
+//		state.pushJavaFunction(new JavaFunction(state) {
+//
+//			@Override
+//			public int execute() throws LuaException {
+//
+//				int max = 0;
+//
+//				L.getGlobal("lastObj");
+//
+//				java.lang.Object temp = L.toJavaObject(-1);
+//
+//				if (!(temp instanceof Object)) {
+//					// log.error("put reset " + getId() + " has no last obj");
+//					return 0;
+//				}
+//
+//				AbstractObject lastObj = (AbstractObject) temp;
+//
+//				if (L.getTop() < 2 || !getParam(2).isNumber()) {
+//					log.error("invalid parameter(2) passed on give " + getId());
+//					return 0;
+//				}
+//
+//				if (L.getTop() > 2 && getParam(3).isNumber()) {
+//					max = (int) getParam(3).getNumber();
+//				}
+//
+//				long objId = (long) getParam(2).getNumber();
+//				int count = 0;
+//
+//				for (AbstractObject obj : lastObj.getContents()) {
+//					if (obj.getId() == objId)
+//						count++;
+//				}
+//
+//				if (count >= max)
+//					return 0;
+//
+//				log.debug("loading obj " + objId + " from reset " + getId());
+//				Session s = Persistance.getSession();
+//				Transaction tx = s.beginTransaction();
+//
+//				AbstractObject putObj; // = (Object) s.load(Object.class, objId);
+//
+//				try {
+//					putObj = Jmud.find(AbstractObject.getList(), objId).clone();
+//				} catch (Exception ex) {
+//					log.warn("object not cloneable! " + objId);
+//					putObj = (AbstractObject) s.load(AbstractObject.class, objId);
+//					return 0;
+//				}
+//				if (putObj == null) {
+//					log.error("put reset " + getId() + " no such object "
+//							+ objId);
+//					return 0;
+//				}
+//
+//				lastObj.getContents().add(putObj);
+//
+//				tx.commit();
+//
+//				return 1;
+//			}
+//
+//		});
+//
+//		state.setGlobal("put");
+//	}
 }

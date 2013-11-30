@@ -5,8 +5,8 @@ package net.arg3.jmud;
 
 import javax.persistence.Column;
 
-import org.keplerproject.luajava.LuaState;
-import org.keplerproject.luajava.LuaStateFactory;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * @author Ryan
@@ -14,20 +14,26 @@ import org.keplerproject.luajava.LuaStateFactory;
  */
 public abstract class Script {
 	private String code;
+	private String name;
 
 	public void execute() {
 		if (Jmud.isNullOrEmpty(code))
 			return;
 
-		LuaState state = LuaStateFactory.newLuaState();
+		try {
+			Context context = Context.enter();
 
-		state.openLibs();
-
-		pushGlobals(state);
-
-		state.LdoString(code);
-
-		state.close();
+			Scriptable scope = context.initStandardObjects();
+	
+			Object result = context.evaluateString(scope, code, name, 0, null);
+			
+			if(result != null)
+				System.out.println(Context.toString(result));
+		}
+		finally
+		{
+			Context.exit();
+		}
 	}
 
 	@Column(name = "code", nullable = false)
@@ -39,5 +45,16 @@ public abstract class Script {
 		code = value;
 	}
 
-	protected abstract void pushGlobals(LuaState state);
+	@Column(name = "name", nullable = false)
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	protected abstract void pushGlobals(Context state);
 }

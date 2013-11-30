@@ -64,7 +64,7 @@ import net.arg3.jmud.objects.ArmorObject;
 import net.arg3.jmud.objects.WeaponObject;
 
 import org.hibernate.annotations.Proxy;
-import org.hibernate.event.PostLoadEventListener;
+import org.hibernate.event.spi.PostLoadEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -30,7 +30,7 @@ import net.arg3.jmud.interfaces.IDataObject;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Proxy;
-import org.hibernate.event.PostLoadEvent;
+import org.hibernate.event.spi.PostLoadEvent;
 
 /**
  * @author Ryan Jennings <c0der78@gmail.com>
