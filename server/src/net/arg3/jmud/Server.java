@@ -100,6 +100,8 @@ public class Server {
 		telnetd.start();
 
 		Updater.initialize();
+		
+		logger.info("Now accepting connections on port " + getConfig().getProperty("jmud.port"));
 	}
 
 	/**

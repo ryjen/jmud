@@ -29,16 +29,16 @@
 			org.hibernate.cache.EhCacheProvider
 		</property>
 		
-		<mapping class="net.arg3.jmud.Help" />
-		<mapping class="net.arg3.jmud.Affect" />
-		<mapping class="net.arg3.jmud.Room" />
-		<mapping class="net.arg3.jmud.Character" />
-		<mapping class="net.arg3.jmud.Player" />
-		<mapping class="net.arg3.jmud.Area" />
-		<mapping class="net.arg3.jmud.Continent" />
-		<mapping class="net.arg3.jmud.Exit" />
-		<mapping class="net.arg3.jmud.Account" />
-		<mapping class="net.arg3.jmud.Profession" />
+		<mapping class="net.arg3.jmud.model.Help" />
+		<mapping class="net.arg3.jmud.model.Affect" />
+		<mapping class="net.arg3.jmud.model.Room" />
+		<mapping class="net.arg3.jmud.model.Character" />
+		<mapping class="net.arg3.jmud.model.Player" />
+		<mapping class="net.arg3.jmud.model.Area" />
+		<mapping class="net.arg3.jmud.model.Continent" />
+		<mapping class="net.arg3.jmud.model.Exit" />
+		<mapping class="net.arg3.jmud.model.Account" />
+		<mapping class="net.arg3.jmud.model.Profession" />
 		<mapping class="net.arg3.jmud.races.UniqueRace" />
 		<mapping class="net.arg3.jmud.races.HumanRace"/>
 		<mapping class="net.arg3.jmud.races.ElfRace"/>
@@ -83,12 +83,12 @@
 		<mapping class="net.arg3.jmud.objects.RaftObject"/>
 		<mapping class="net.arg3.jmud.objects.TreasureObject"/>
 		<mapping class="net.arg3.jmud.objects.WarpStoneObject"/>
-		<mapping class="net.arg3.jmud.Shop" />
-		<mapping class="net.arg3.jmud.Reset" />
-		<mapping class="net.arg3.jmud.NonPlayer" />
-		<mapping class="net.arg3.jmud.Hint" />
+		<mapping class="net.arg3.jmud.model.Shop" />
+		<mapping class="net.arg3.jmud.model.Reset" />
+		<mapping class="net.arg3.jmud.model.NonPlayer" />
+		<mapping class="net.arg3.jmud.model.Hint" />
 		<mapping class="net.arg3.jmud.World" />
-		<mapping class="net.arg3.jmud.Social" />
-		<mapping class="net.arg3.jmud.Ability" />
+		<mapping class="net.arg3.jmud.model.Social" />
+		<mapping class="net.arg3.jmud.model.Ability" />
 	</session-factory>
 </hibernate-configuration>
