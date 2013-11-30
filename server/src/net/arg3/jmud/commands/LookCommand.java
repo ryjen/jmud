@@ -8,6 +8,7 @@ package net.arg3.jmud.commands;
 
 import net.arg3.jmud.Argument;
 import net.arg3.jmud.enums.Direction;
+import net.arg3.jmud.model.AbstractObject;
 import net.arg3.jmud.model.Character;
 import net.arg3.jmud.model.Room;
 import net.wimpi.telnetd.io.terminal.ColorHelper;
@@ -63,7 +64,7 @@ public class LookCommand extends Command {
 		}
 		ch.writeln(ColorHelper.colorizeText("]", ColorHelper.GREEN));
 
-		for (Object obj : room.getObjects()) {
+		for (AbstractObject obj : room.getObjects()) {
 			ch.writeln(obj.getLongDescr());
 		}
 		for (Character rch : room.getCharacters()) {

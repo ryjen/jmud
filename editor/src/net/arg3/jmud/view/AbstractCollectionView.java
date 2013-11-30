@@ -25,6 +25,9 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.slf4j.LoggerFactory;
+
+import riverlayout.component.RiverLayout;
 import net.arg3.jmud.EditorMetaData;
 import net.arg3.jmud.Jmud;
 import net.arg3.jmud.Persistance;
@@ -32,9 +35,6 @@ import net.arg3.jmud.annotations.SubClasses;
 import net.arg3.jmud.interfaces.IDataObject;
 import net.arg3.jmud.interfaces.IFormatible;
 
-import org.slf4j.LoggerFactory;
-
-import se.datadosen.component.RiverLayout;
 
 public abstract class AbstractCollectionView extends JPanel implements
 		ListSelectionListener {

@@ -4,11 +4,9 @@
 	<classpathentry kind="src" path="contrib"/>
 	<classpathentry kind="src" path="tools"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="ext/jdom.jar"/>
-	<classpathentry kind="lib" path="ext/gnuregex.jar"/>
-	<classpathentry kind="lib" path="ext/servlet-api.jar"/>
 	<classpathentry kind="lib" path="/jmudlib/ext/slf4j-api-1.6.1.jar"/>
-	<classpathentry kind="lib" path="ext/jzlib.jar"/>
-	<classpathentry kind="lib" path="/jmudlib/ext/slf4j-jdk14-1.6.1.jar"/>
+	<classpathentry kind="lib" path="ext/jdom-2.0.2.jar"/>
+	<classpathentry kind="lib" path="ext/jzlib-1.1.3.jar"/>
+	<classpathentry kind="lib" path="ext/servlet-api-6.0.37.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

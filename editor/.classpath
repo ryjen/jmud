@@ -2,8 +2,11 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jmudlib"/>
-	<classpathentry kind="lib" path="ext/looks-2.3.0.jar"/>
-	<classpathentry kind="lib" path="ext/riverlayout.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="ext/looks-2.2.2.jar"/>
+	<classpathentry kind="lib" path="ext/RiverLayout.jar"/>
+	<classpathentry kind="lib" path="/jmudlib/ext/hibernate-core-4.3.0.CR1.jar"/>
+	<classpathentry kind="lib" path="/jmudlib/ext/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/jmudlib/ext/hibernate-jpa-2.1-api-1.0.0.Final.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

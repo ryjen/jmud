@@ -18,12 +18,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import riverlayout.component.RiverLayout;
 import net.arg3.jmud.FieldMetaData;
 import net.arg3.jmud.Jmud;
 import net.arg3.jmud.editors.AbstractCollectionEditor;
 import net.arg3.jmud.editors.AbstractEditor;
 import net.arg3.jmud.editors.NumberEditor;
-import se.datadosen.component.RiverLayout;
 
 /**
  * @author Ryan Jennings <c0der78@gmail.com>

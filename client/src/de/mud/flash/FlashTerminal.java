@@ -33,11 +33,11 @@ import java.io.StringReader;
 import java.net.Socket;
 import java.util.Iterator;
 
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.Text;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.XMLOutputter;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.Text;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

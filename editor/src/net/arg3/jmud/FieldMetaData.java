@@ -44,7 +44,7 @@ import net.arg3.jmud.model.Help;
 import net.arg3.jmud.model.Race;
 import net.arg3.jmud.model.Room;
 
-import org.hibernate.collection.PersistentSet;
+import org.hibernate.collection.internal.PersistentSet;
 import org.slf4j.LoggerFactory;
 
 /**
