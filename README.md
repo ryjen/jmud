@@ -1,7 +1,7 @@
 jmud
 ====
 
-a multi user dungeon in java
+a multi user dungeon in java.  because I write muds to learn
 
 #### project is split into 4 components:
 * client: a telnet client to connect to the server
@@ -15,4 +15,4 @@ a multi user dungeon in java
 * lua
 
 #### history
-* written in 2006, not currently in active development.
+* written long time ago, not currently in active development.
